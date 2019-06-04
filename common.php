@@ -5,6 +5,10 @@ function init()
     Uiza\Base::setAuthorization(API);
 }
 
+/**
+ * [getListEntity]
+ * @return [type] [description]
+ */
 function getListEntity()
 {
     init();
@@ -15,6 +19,11 @@ function getListEntity()
     }
 }
 
+/**
+ * [getStatusHtml]
+ * @param  [type] $status [description]
+ * @return [type]         [description]
+ */
 function getStatusHtml($status)
 {
     if ($status == "success") {
@@ -25,6 +34,10 @@ function getStatusHtml($status)
     return '<span class="badge badge-pill badge-fail">Fail</span>';
 }
 
+/**
+ * [getAWSUploadKey description]
+ * @return [type] [description]
+ */
 function getAWSUploadKey()
 {
     init();
@@ -65,17 +78,32 @@ function uiza_page()
     submit_button();
     echo '</form></div>';
 }
+
+/**
+ * [uiza_task]
+ * @return [type] [description]
+ */
 function uiza_task()
 {
     echo '<div class="wrap"><h1>Create Task</h1>';
     echo '</div>';
 }
+
+/**
+ * [uiza_event]
+ * @return [type] [description]
+ */
 function uiza_event()
 {
     echo '<div class="wrap">';
     echo '<h1>Create Event</h1>';
     echo '</div>';
 }
+
+/**
+ * [uiza_entities]
+ * @return [type] [description]
+ */
 function uiza_entities()
 {
     echo '<div class="wrap">';
@@ -84,6 +112,7 @@ function uiza_entities()
     require_once "list.php";
     echo '</div>';
 }
+
 /**
  * Init setting section, Init setting field and register settings page
  *
