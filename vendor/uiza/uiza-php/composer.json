@@ -1,0 +1,26 @@
+{
+    "name": "uiza/uiza-php",
+    "description": "See https://docs.uiza.io for details",
+    "require": {
+        "monolog/monolog": "^1.24",
+        "guzzlehttp/guzzle": "^6.3"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^6.5"
+    },
+    "autoload": {
+        "psr-4": {
+          "Uiza\\": "lib/"
+        },
+        "files": [
+            "lib/Util/helpers.php"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
