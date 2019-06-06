@@ -30,7 +30,6 @@ if ($result !== false) {
   </button>
 </div>';
 }
-//var_dump(getAWSUploadKey()->body->data);
 ?>
   </tbody>
 </table>
