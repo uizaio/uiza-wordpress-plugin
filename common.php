@@ -35,7 +35,7 @@ function getStatusHtml($status)
 }
 
 /**
- * [getAWSUploadKey description]
+ * [getAWSUploadKey]
  * @return [type] [description]
  */
 function getAWSUploadKey()
@@ -50,9 +50,8 @@ function getAWSUploadKey()
 }
 
 /**
- * Adding Submenu under Settings Tab
  *
- * @since 1.0
+ * Adding Menu and submenu under Uiza Tab
  */
 function uiza_add_menu()
 {
@@ -65,10 +64,9 @@ function uiza_add_menu()
 
 /**
  * Setting Page Options
- * - add setting page
- * - save setting page
+ * Add setting page
+ * Save setting page
  *
- * @since 1.0
  */
 function uiza_page()
 {
@@ -128,9 +126,8 @@ function uiza_settings()
 }
 
 /**
- * Add simple textfield value to setting page
+ * Add textfield value to setting page Uiza Api Domain
  *
- * @since 1.0
  */
 function uiza_text_api_domain()
 {
@@ -138,8 +135,8 @@ function uiza_text_api_domain()
 }
 
 /**
- * [uiza_text_auth description]
- * @return [type] [description]
+ * Add textfield value to setting page Uiza Authorization
+ *
  */
 function uiza_text_auth()
 {
