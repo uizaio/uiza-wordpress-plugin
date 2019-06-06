@@ -27,7 +27,7 @@ require_once "common.php";
 wp_enqueue_style('bootstrap.min.css', 'https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css');
 wp_enqueue_script('jquery-3.3.1.js', 'https://code.jquery.com/jquery-3.3.1.js');
 wp_enqueue_script('aws-sdk-2.283.1.min.js', 'https://sdk.amazonaws.com/js/aws-sdk-2.283.1.min.js');
-
+//Uiza menu
 add_action("admin_menu", "uiza_add_menu");
-
+//Uiza Setting
 add_action("admin_init", "uiza_settings");
