@@ -144,7 +144,7 @@ function uiza_text_auth()
 }
 
 /**
- * [add_custom_link_into_uiza_menu description]
+ * [add_custom_link_into_uiza_menu]
  */
 function add_custom_link_into_uiza_menu()
 {
