@@ -19,7 +19,7 @@ if ($result !== false) {
                   <th scope=\"row\">{$var['name']}</th>
                   <td><img src=\"{$var['thumbnail']}\" width=\"auto\" height=\"40\"></td>
                   <td>" . getStatusHtml($var['publishToCdn']) . "</td>
-                  <td><a href=\"detail?id={$var['id']}\">View</a></td>
+                  <td><a href=\"?page=uiza-entities&id={$var['id']}\">View</a></td>
               </tr>";
     }
 } else {

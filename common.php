@@ -20,6 +20,21 @@ function getListEntity()
 }
 
 /**
+ * [getEntity]
+ * @param  [type] $id [description]
+ * @return [type]     [description]
+ */
+function getEntityDetail($id)
+{
+    init();
+    try {
+        return Uiza\Entity::retrieve($id);
+    } catch (\Uiza\Exception\ErrorResponse $e) {
+        return false;
+    }
+
+}
+/**
  * [getStatusHtml]
  * @param  [type] $status [description]
  * @return [type]         [description]
@@ -104,13 +119,23 @@ function uiza_event()
  */
 function uiza_entities()
 {
+    if (isset($_GET['id'])) {
+        require_once "detail.php";
+    } else {
+        echo '<div class="wrap"><h1>Entities Management</h1>';
+        //Module list
+        require_once "list.php";
+        echo '</div>';
+    }
+}
+function uiza_entity_detail()
+{
     echo '<div class="wrap">';
-    echo '<h1>Entities Management</h1>';
+    echo '<h1>Entity Detail</h1>';
     //Module list
-    require_once "list.php";
+    require_once "detail.php";
     echo '</div>';
 }
-
 /**
  * Init setting section, Init setting field and register settings page
  *
@@ -150,4 +175,18 @@ function add_custom_link_into_uiza_menu()
 {
     global $submenu;
     $submenu['uiza'][] = ['Setting', 'manage_options', 'options-general.php?page=uiza'];
+}
+
+/**
+ * [getAppId description]
+ * @return [type] [description]
+ */
+function getAppId()
+{
+    $apiKey = get_option('uiza-authorization');
+    if ($apiKey == '' || !preg_match('/^uap-\w{32}-\w{8}$/', $apiKey)) {
+        return false;
+    }
+    $split = explode('-', $apiKey);
+    return $split[1];
 }
