@@ -190,3 +190,13 @@ function getAppId()
     $split = explode('-', $apiKey);
     return $split[1];
 }
+
+/**
+ * [getEmbed description]
+ * @param  [type] $info [description]
+ * @return [type]       [description]
+ */
+function getEmbed($info)
+{
+    return '<iframe id="iframe-' . $info['id'] . '" width="100%" height="100%" src="https://sdk.uiza.io/#/' . $info['app_id'] . '/publish/' . $info['id'] . '/embed?iframeId=iframe-' . $info['id'] . '&env=prod&version=4&api=YXAtc291dGhlYXN0LTEtYXBpLnVpemEuY28=&playerId=null" frameborder="0" allowfullscreen="allowfullscreen" webkitallowfullscreen="webkitallowfullscreen" mozallowfullscreen="mozallowfullscreen" allow="autoplay; fullscreen; encrypted-media"></iframe><script src=\'https://sdk.uiza.io/iframe_api.js\'/></script>';
+}

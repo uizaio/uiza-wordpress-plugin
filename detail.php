@@ -22,7 +22,13 @@ $info = [
 ];
 ?>
 <div class="container">
-  <p><h4>Detail</h4></p>
+<p>
+<div class="alert alert-success alert-dismissible" id="embed-code-copy" style="display: none;">
+  <button type="button" class="close" id="close-show-embed">&times;</button>
+  <strong>Embed Code!</strong>  Copied success.
+</div>
+</p>
+<p><h4>Detail</h4></p>
   <div class="row">
     <div class="col-sm">
     <div class="embed-responsive embed-responsive-16by9">
@@ -35,6 +41,12 @@ if (isset($info)) {
 </div>
     <div class="col-sm">
       <h4>Entity's information</h4>
+      <div class="row">
+          <div class="col-md-5">
+              <label>Embed</label>
+          </div>
+          <div class="col-md-7"><button class="btn btn-outline-secondary btn-sm btn-control px-2" data-toggle="modal" data-target="#myModal" type="button">Get Embed</button></div>
+      </div>
       <div class="row">
           <div class="col-md-5">
               <label>ID</label>
@@ -68,3 +80,43 @@ if (isset($info)) {
     </div>
   </div>
 </div>
+
+<!-- The Modal -->
+<div class="modal" id="myModal">
+  <div class="modal-dialog modal-embed modal-lg">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Embed Code</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+        <textarea rows="10" readonly="true" id="show_embed_text">
+          <?=isset($info) ? getEmbed($info) : ''?>
+        </textarea>
+     </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer">
+          <div class="text-center">
+            <button class="btn btn-secondary mr-right-10" data-dismiss="modal" type="button"> Close </button>
+            <button class="btn btn-primary" type="button" id="copy"> Copy </button>
+          </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+$("#copy").click(function(){
+    $("#show_embed_text").select();
+    document.execCommand('copy');
+    $('#myModal').modal('toggle');
+    $('#embed-code-copy').show();
+});
+$("#close-show-embed").click(function(e) {
+  $("#embed-code-copy").hide();
+});
+</script>
