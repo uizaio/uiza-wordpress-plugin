@@ -1,5 +1,5 @@
 <?php
-define("API", get_option('uiza-authorization'));
+define("API", get_option('uiza-api-key'));
 function init()
 {
     Uiza\Base::setAuthorization(API);
@@ -99,6 +99,7 @@ function uiza_page()
 function uiza_task()
 {
     echo '<div class="wrap"><h1>Create Task</h1>';
+    require_once "upload.php";
     echo '</div>';
 }
 
@@ -144,28 +145,28 @@ function uiza_entity_detail()
 function uiza_settings()
 {
     add_settings_section("uiza_config", "", null, "uiza");
-    add_settings_field("uiza-api-domain", "Api Domain", "uiza_text_api_domain", "uiza", "uiza_config");
-    add_settings_field("uiza-authorization", "Authorization", "uiza_text_auth", "uiza", "uiza_config");
-    register_setting("uiza_config", "uiza-api-domain");
-    register_setting("uiza_config", "uiza-authorization");
+    add_settings_field("uiza-app-id", "App ID", "uiza_text_app_id", "uiza", "uiza_config");
+    add_settings_field("uiza-api-key", "API Key", "uiza_text_api_key", "uiza", "uiza_config");
+    register_setting("uiza_config", "uiza-app-id");
+    register_setting("uiza_config", "uiza-api-key");
 }
 
 /**
  * Add textfield value to setting page Uiza Api Domain
  *
  */
-function uiza_text_api_domain()
+function uiza_text_app_id()
 {
-    echo '<input type="text" name="uiza-api-domain" class="form-control w-50" value="' . stripslashes_deep(esc_attr(get_option('uiza-api-domain'))) . '" />';
+    echo '<input type="text" name="uiza-app-id" class="form-control w-50" value="' . stripslashes_deep(esc_attr(get_option('uiza-app-id'))) . '" />';
 }
 
 /**
  * Add textfield value to setting page Uiza Authorization
  *
  */
-function uiza_text_auth()
+function uiza_text_api_key()
 {
-    echo '<input type="text" name="uiza-authorization"  class="form-control w-50" value="' . stripslashes_deep(esc_attr(get_option('uiza-authorization'))) . '" />';
+    echo '<input type="text" name="uiza-api-key"  class="form-control w-50" value="' . stripslashes_deep(esc_attr(get_option('uiza-api-key'))) . '" />';
 }
 
 /**
@@ -183,7 +184,7 @@ function add_custom_link_into_uiza_menu()
  */
 function getAppId()
 {
-    $apiKey = get_option('uiza-authorization');
+    $apiKey = get_option('uiza-api-key');
     if ($apiKey == '' || !preg_match('/^uap-\w{32}-\w{8}$/', $apiKey)) {
         return false;
     }

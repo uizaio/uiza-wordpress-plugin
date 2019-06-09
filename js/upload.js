@@ -1,6 +1,6 @@
 var fileSelected = null;
-var token = "";
-var domain = '';
+var token =null;
+var domain = 'https://ap-southeast-1-api.uiza.co/';
 
 var getExtFile = (filename)=>{
   if(!filename)
@@ -12,6 +12,7 @@ var changeFile = ($event)=>{
   console.log('$event', $event.target.files);
   if($event.target.files && $event.target.files[0]){
     var tmp = $event.target.files[0];
+    token = $('#api-key-h').val();
     fileSelected = {
       name : tmp.name,
       body : tmp,
@@ -195,7 +196,7 @@ var submitUpload = async ()=>{
 
   //step 5 done
   console.log('ALL DONE');
-  location.reload(); 
+  $('#embed-code-copy').show();
 };
 
 $(document).ready(async ()=>{
