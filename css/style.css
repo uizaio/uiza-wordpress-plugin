@@ -56,3 +56,6 @@ textarea {
     text-transform: capitalize;
     text-align: center;
 }
+#select_file_upload {
+    padding: 120px 0 !important;
+}
