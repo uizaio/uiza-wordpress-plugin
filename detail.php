@@ -9,6 +9,9 @@ if ($id == '' || !preg_match('/^\w{8}-\w{4}-\w{4}-\w{4}-\w{12}$/', $id)) {
   </button>
 </div></div>');
 }
+if (isset($_GET['publish']) && $_GET['publish'] == 1) {
+    publicEntity($id);
+}
 $detail = getEntityDetail($id);
 $info = [
     'id' => $id,
@@ -41,17 +44,15 @@ if (isset($info)) {
 </div>
     <div class="col-sm">
       <h4>Entity's information</h4>
-      <div class="row">
-          <div class="col-md-5">
-              <label>Embed</label>
-          </div>
-          <div class="col-md-7"><button class="btn btn-outline-secondary btn-sm btn-control px-2" data-toggle="modal" data-target="#myModal" type="button">Get Embed</button></div>
+      <div _ngcontent-c39="" class="pull-right">
+          <button class="btn btn-success btn-sm" id="publish-entity" type="button"><i class="icon-publish"></i> Publish</button>
+          <button class="btn btn-outline-secondary btn-sm btn-control px-2" data-toggle="modal" data-target="#myModal" type="button">Get Embed</button>
       </div>
       <div class="row">
           <div class="col-md-5">
               <label>ID</label>
           </div>
-          <div class="col-md-7"><span class="ellipsis-items"><?=$info['id']?></span></div>
+          <div class="col-md-7"><span class="ellipsis-items" id="entity_id_text"><?=$info['id']?></span></div>
       </div>
       <div class="row">
           <div class="col-md-5">
@@ -118,5 +119,12 @@ $("#copy").click(function(){
 });
 $("#close-show-embed").click(function(e) {
   $("#embed-code-copy").hide();
+});
+$('#publish-entity').click(function(e) {
+    var url = new URL($(location).attr("href"));
+    url.searchParams.set('publish', 1);
+    setTimeout(function() {
+      window.location.href = url;
+    }, 2000);
 });
 </script>

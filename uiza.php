@@ -32,6 +32,7 @@ wp_enqueue_script('bootstrap.min.js', 'https://maxcdn.bootstrapcdn.com/bootstrap
 wp_enqueue_script('aws-sdk-2.283.1.min.js', 'https://sdk.amazonaws.com/js/aws-sdk-2.283.1.min.js');
 wp_enqueue_script('common.js', plugin_dir_url(__FILE__) . 'js/common.js');
 wp_enqueue_script('upload.js', plugin_dir_url(__FILE__) . 'js/upload.js');
+wp_localize_script('my_voter_script', 'myAjax', array('ajaxurl' => admin_url('process.php')));
 
 //Uiza menu
 add_action("admin_menu", "uiza_add_menu");

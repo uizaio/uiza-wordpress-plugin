@@ -34,6 +34,22 @@ function getEntityDetail($id)
     }
 
 }
+
+/**
+ * [publicEntity]
+ * @param  [type] $entityId [description]
+ * @return [type]           [description]
+ */
+function publicEntity($entityId)
+{
+    init();
+    try {
+        Uiza\Entity::publish(["id" => $entityId]);
+    } catch (\Uiza\Exception\ErrorResponse $e) {
+        return false;
+    }
+
+}
 /**
  * [getStatusHtml]
  * @param  [type] $status [description]
@@ -110,7 +126,9 @@ function uiza_task()
 function uiza_event()
 {
     echo '<div class="wrap">';
-    echo '<h1>Create Event</h1>';
+    echo '<h1>Create new Live Event</h1>';
+    echo '<label class="small">Create event for your livestream</label><br />';
+    require_once "create_event.php";
     echo '</div>';
 }
 

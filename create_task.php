@@ -8,10 +8,12 @@
     <div class="col-md-6">
         <div class="form-group files">
             <label>Upload Your Video </label>
-            <input type="file" class="form-control" id="select_file_upload" onchange="changeFile(event)">
+            <input type="file" class="form-control" id="select_file_upload" accept=".mp4,.avi,.mov,.flv,.wmv" onchange="changeFile(event)">
             <input type="hidden" id="api-key-h" value="<?=get_option('uiza-api-key')?>">
         </div>
-        <button type="submit" onclick="submitUpload()" class="btn btn-primary">Process</button>
+        <div class="col text-center">
+            <button type="submit" onclick="submitUpload()" class="btn btn-primary">Process</button>
+        </div>
     </div>
 </div>
 <script type="text/javascript">
