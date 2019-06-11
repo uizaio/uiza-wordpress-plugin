@@ -11,6 +11,13 @@ if ($id == '' || !preg_match('/^\w{8}-\w{4}-\w{4}-\w{4}-\w{12}$/', $id)) {
 }
 if (isset($_GET['publish']) && $_GET['publish'] == 1) {
     publicEntity($id);
+    while (1) {
+        sleep(2);
+        $tmpDetail = getEntityDetail($id);
+        if ($tmpDetail->publishToCdn == 'success') {
+            break;
+        }
+    }
 }
 $detail = getEntityDetail($id);
 $info = [
@@ -19,6 +26,7 @@ $info = [
     'app_id' => getAppId(),
     'name' => $detail->name,
     'description' => $detail->description,
+    'publishToCdn' => $detail->publishToCdn,
     'createdAt' => $detail->createdAt,
     'updatedAt' => $detail->updatedAt,
 
@@ -32,27 +40,30 @@ $info = [
 </div>
 </p>
 <p><h4>Detail</h4></p>
-  <div class="row">
-    <div class="col-sm">
-    <div class="embed-responsive embed-responsive-16by9">
+<div class="row">
 	<?php
-if (isset($info)) {
+if (isset($info) && $info['publishToCdn'] == 'success') {
+    echo '<div class="col-sm"><div class="embed-responsive embed-responsive-16by9">';
     echo '<iframe class="embed-responsive-item" id="iframe-' . $info['id'] . '" src="https://sdk.uiza.io/#/' . $info['app_id'] . '/publish/' . $info['id'] . '/embed?iframeId=iframe-' . $info['id'] . '&env=prod&version=4" allowfullscreen="allowfullscreen" webkitallowfullscreen="webkitallowfullscreen" mozallowfullscreen="mozallowfullscreen" allow="autoplay; fullscreen; encrypted-media" width="100%" height="100%" frameborder="0"></iframe>';
+    echo '</div></div>';
+} else {
+    echo '<div class="col-md-7" style="background-image: url(' . plugin_dir_url(__FILE__) . 'images/imageHolder.jpg);">
+    <span class="badge badge-pill badge-secondary video-not-ready">Not Ready</span>
+    <div class="img-tracking"></div>
+</div>';
 }
 ?>
-	</div>
-</div>
     <div class="col-sm">
       <h4>Entity's information</h4>
       <div _ngcontent-c39="" class="pull-right">
           <button class="btn btn-success btn-sm" id="publish-entity" type="button"><i class="icon-publish"></i> Publish</button>
-          <button class="btn btn-outline-secondary btn-sm btn-control px-2" data-toggle="modal" data-target="#myModal" type="button">Get Embed</button>
+          <button class="btn btn-outline-secondary btn-sm btn-control px-2" data-target="#myModal" type="button" id="show_embed_button">Get Embed</button>
       </div>
       <div class="row">
           <div class="col-md-5">
               <label>ID</label>
           </div>
-          <div class="col-md-7"><span class="ellipsis-items" id="entity_id_text"><?=$info['id']?></span></div>
+          <div class="col-md-7"><span class="ellipsis-items" id="entity_id_text" status="<?=$info['publishToCdn']?>"><?=$info['id']?></span></div>
       </div>
       <div class="row">
           <div class="col-md-5">
@@ -103,7 +114,7 @@ if (isset($info)) {
       <!-- Modal footer -->
       <div class="modal-footer">
           <div class="text-center">
-            <button class="btn btn-secondary mr-right-10" data-dismiss="modal" type="button"> Close </button>
+            <button class="btn btn-secondary mr-right-10" data-dismiss="modal" type="button" id="close-modal"> Close </button>
             <button class="btn btn-primary" type="button" id="copy"> Copy </button>
           </div>
       </div>
@@ -111,20 +122,32 @@ if (isset($info)) {
   </div>
 </div>
 <script type="text/javascript">
-$("#copy").click(function(){
-    $("#show_embed_text").select();
-    document.execCommand('copy');
-    $('#myModal').modal('toggle');
-    $('#embed-code-copy').show();
-});
-$("#close-show-embed").click(function(e) {
-  $("#embed-code-copy").hide();
-});
-$('#publish-entity').click(function(e) {
-    var url = new URL($(location).attr("href"));
-    url.searchParams.set('publish', 1);
-    setTimeout(function() {
-      window.location.href = url;
-    }, 2000);
-});
+  $('#show_embed_button').click(function(e) {
+      if ($('#entity_id_text').attr('status') == 'success') {
+        $('#myModal').show();
+      } else {
+        alert('The entity is not ready, please wait ....');
+      }
+  });
+  $("#copy").click(function(){
+      $("#show_embed_text").select();
+      document.execCommand('copy');
+      $('#myModal').hide();
+      $('#embed-code-copy').show();
+  });
+  $("#close-show-embed").click(function(e) {
+    $("#embed-code-copy").hide();
+  });
+  $('#publish-entity').click(function(e) {
+      if ($('#entity_id_text').attr('status') == 'success') {
+        alert('The entity has already puslished!');
+      } else {
+          var url = new URL($(location).attr("href"));
+          url.searchParams.set('publish', 1);
+          window.location.href = url;
+      }
+  });
+  $('#close-modal, .close').click(function(e) {
+    $('#myModal').hide();
+  });
 </script>
