@@ -59,3 +59,37 @@ textarea {
 #select_file_upload {
     padding: 120px 0 !important;
 }
+ul.list-event[_ngcontent-c11] li[_ngcontent-c11] {
+    display: inline-block;
+    width: 33%;
+    padding: 10px;
+}
+*, ::after, ::before {
+    box-sizing: border-box;
+}
+ul[_ngcontent-c11] {
+    list-style: none;
+    padding: 0;
+}
+ul {
+    list-style: none;
+    padding: 0;
+}
+dl, ol, ul {
+    margin-top: 0;
+    margin-bottom: 1rem;
+}
+.card {
+    word-wrap: break-word;
+}
+.col-md-12 {
+    flex: 0 0 100%;
+    max-width: 100%;
+}
+.img-tracking[_ngcontent-c11] {
+    padding-top: 56.25%;
+    height: 0;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}

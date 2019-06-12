@@ -50,6 +50,81 @@ function publicEntity($entityId)
     }
 
 }
+
+/**
+ * [createLiveEvent]
+ * @param  [type] $params [description]
+ * @return [type]         [description]
+ */
+function createLiveEvent($params)
+{
+    init();
+    try {
+        return Uiza\Live::create($params);
+    } catch (\Uiza\Exception\ErrorResponse $e) {
+        return false;
+    }
+
+}
+
+/**
+ * [startLiveEvent]
+ * @param  [type] $id [description]
+ * @return [type]     [description]
+ */
+function startLiveEvent($id)
+{
+    init();
+    try {
+        return Uiza\Live::startFeed(["id" => $id]);
+    } catch (\Uiza\Exception\ErrorResponse $e) {
+        return false;
+    }
+}
+
+/**
+ * [stopLiveEvent]
+ * @param  [type] $id [description]
+ * @return [type]     [description]
+ */
+function stopLiveEvent($id)
+{
+    init();
+    try {
+        return Uiza\Live::stopFeed(["id" => $id]);
+    } catch (\Uiza\Exception\ErrorResponse $e) {
+        return false;
+    }
+}
+
+/**
+ * [retrieveLiveStream]
+ * @return [type] [description]
+ */
+function retrieveLive($id)
+{
+    try {
+        return Uiza\Live::retrieve($id);
+    } catch (\Uiza\Exception\ErrorResponse $e) {
+        return false;
+    }
+}
+
+/**
+ * [listRecords]
+ * @return [type] [description]
+ */
+function listRecords()
+{
+    init();
+    try {
+        return Uiza\Live::listRecorded();
+    } catch (\Uiza\Exception\ErrorResponse $e) {
+        return false;
+    }
+
+}
+
 /**
  * [getStatusHtml]
  * @param  [type] $status [description]
@@ -218,4 +293,8 @@ function getAppId()
 function getEmbed($info)
 {
     return '<iframe id="iframe-' . $info['id'] . '" width="100%" height="100%" src="https://sdk.uiza.io/#/' . $info['app_id'] . '/publish/' . $info['id'] . '/embed?iframeId=iframe-' . $info['id'] . '&env=prod&version=4&api=YXAtc291dGhlYXN0LTEtYXBpLnVpemEuY28=&playerId=null" frameborder="0" allowfullscreen="allowfullscreen" webkitallowfullscreen="webkitallowfullscreen" mozallowfullscreen="mozallowfullscreen" allow="autoplay; fullscreen; encrypted-media"></iframe><script src=\'https://sdk.uiza.io/iframe_api.js\'/></script>';
+}
+function getEmbedStream()
+{
+    return '<iframe id="iframe-79700531-5d4e-4b06-9f1f-8b3e3d9a8c76" src="https://sdk.uiza.io/#/11f00e8f302a4b20ae920cfa0d8752dc/live/79700531-5d4e-4b06-9f1f-8b3e3d9a8c76/embed?iframeId=iframe-79700531-5d4e-4b06-9f1f-8b3e3d9a8c76&amp;streamName=64a4883c-d652-4d22-a26f-2f097a48134d&amp;region=ap-southeast-1&amp;feedId=d7f336f1-e720-429b-a87a-d81de0b0bb21&amp;env=prod&amp;version=4&amp;native=true&amp;showCCU=true&amp;api=YXAtc291dGhlYXN0LTEtYXBpLnVpemEuY28=" style="position: absolute; top: 0px; right: 0px; bottom: 0px; left: 0px;" allowfullscreen="allowfullscreen" webkitallowfullscreen="webkitallowfullscreen" mozallowfullscreen="mozallowfullscreen" allow="autoplay; fullscreen; encrypted-media" width="100%" height="100%" frameborder="0"></iframe>';
 }
