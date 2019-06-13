@@ -24,8 +24,10 @@ if (isset($_POST['submit'])) {
     ];
     $infoLive = createLiveEvent($params);
 }
-if (isset($infoLive) && $infoLive !== false) {
-    startLiveEvent($infoLive->id);
-    require_once "event.php";
-}
+// if (isset($infoLive) && $infoLive !== false) {
+//     startLiveEvent($infoLive->id);
+//     require_once "event.php";
+// }
+$listLiveEvent = getListLive();
+require_once "event_list.php";
 ?>

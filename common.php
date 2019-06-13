@@ -19,12 +19,39 @@ function getListEntity()
     }
 }
 
+function getListLive()
+{
+    init();
+    try {
+        return json_decode(Uiza\Live::list()->json, true)['data'];
+    } catch (\Uiza\Exception\ErrorResponse $e) {
+        return false;
+    }
+
+}
+
 /**
  * [getEntity]
  * @param  [type] $id [description]
  * @return [type]     [description]
  */
 function getEntityDetail($id)
+{
+    init();
+    try {
+        return Uiza\Entity::retrieve($id);
+    } catch (\Uiza\Exception\ErrorResponse $e) {
+        return false;
+    }
+
+}
+
+/**
+ * [getEntity]
+ * @param  [type] $id [description]
+ * @return [type]     [description]
+ */
+function getLiveDetail($id)
 {
     init();
     try {
@@ -200,11 +227,15 @@ function uiza_task()
  */
 function uiza_event()
 {
-    echo '<div class="wrap">';
-    echo '<h1>Create new Live Event</h1>';
-    echo '<label class="small">Create event for your livestream</label><br />';
-    require_once "create_event.php";
-    echo '</div>';
+    if (isset($_GET['id'])) {
+        require_once "event_detail.php";
+    } else {
+        echo '<div class="wrap">';
+        echo '<h1>Create new Live Event</h1>';
+        echo '<label class="small">Create event for your livestream</label><br />';
+        require_once "create_event.php";
+        echo '</div>';
+    }
 }
 
 /**
