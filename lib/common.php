@@ -337,14 +337,14 @@ function getEmbed($info)
 }
 function getEmbedStream($live, $auth)
 {
-    return '<iframe id="iframe-' . $live->id . '" width="100%" height="100%" src="https://sdk.uiza.io/#/11f00e8f302a4b20ae920cfa0d8752dc/live/' . $live->id . '/embed?iframeId=iframe-' . $live->id . '&streamName=' . $live->channelName . '&region=ap-southeast-1&feedId=' . $live->lastFeedId . '&env=prod&version=4&native=true&showCCU=true&api=YXAtc291dGhlYXN0LTEtYXBpLnVpemEuY28=&playerId=null" frameborder="0" allowfullscreen="allowfullscreen" webkitallowfullscreen="webkitallowfullscreen" mozallowfullscreen="mozallowfullscreen" allow="autoplay; fullscreen; encrypted-media"></iframe><script src=\'https://sdk.uiza.io/iframe_api.js\'/></script>';
+    return '<iframe id="iframe-' . $live->id . '" width="100%" height="100%" src="https://sdk.uiza.io/#/' . get_option('uiza-app-id') . '/live/' . $live->id . '/embed?iframeId=iframe-' . $live->id . '&streamName=' . $live->channelName . '&region=ap-southeast-1&feedId=' . $live->lastFeedId . '&env=prod&version=4&native=true&showCCU=true&api=YXAtc291dGhlYXN0LTEtYXBpLnVpemEuY28=&playerId=null" frameborder="0" allowfullscreen="allowfullscreen" webkitallowfullscreen="webkitallowfullscreen" mozallowfullscreen="mozallowfullscreen" allow="autoplay; fullscreen; encrypted-media"></iframe><script src=\'https://sdk.uiza.io/iframe_api.js\'/></script>';
 }
-function showButtonEvent($status)
+function showButtonEvent($live)
 {
-    if ($status == 'start') {
-        return '<button _ngcontent-c11="" class="btn btn-sm btn-danger mr-right-10" id="stop_live_btn" val="stop"><i _ngcontent-c11="" class="icon icon-stop" style="line-height: 0"></i>Stop Live </button>';
+    if ($live['lastProcess'] == 'start') {
+        return '<button _ngcontent-c11="" class="btn btn-sm btn-danger mr-right-10" id="stop_live_btn" val="stop" live="' . $live['id'] . '"><i _ngcontent-c11="" class="icon icon-stop" style="line-height: 0"></i>Stop Live </button>';
     } else {
-        return '<button _ngcontent-c40="" class="btn btn-sm btn-info mr-right-10" id="start_live_btn" val="start"><i _ngcontent-c40="" class="icon icon-livestream" style="line-height: 0"></i>Start Live</button>';
+        return '<button _ngcontent-c40="" class="btn btn-sm btn-info mr-right-10" id="start_live_btn" val="start" live="' . $live['id'] . '"><i _ngcontent-c40="" class="icon icon-livestream" style="line-height: 0"></i>Start Live</button>';
     }
 }
 function showErrorMessage($error)
@@ -371,7 +371,7 @@ function showEventDetail($detail)
     $tempText .= '<div class="col-sm">
       <h4>Event Detail</h4>
       <div _ngcontent-c39="" class="pull-right">
-          ' . showButtonEvent($detail->lastProcess) . '
+          ' . showButtonEvent($detail) . '
           <button class="btn btn-outline-secondary btn-sm btn-control px-2" data-target="#myModal" type="button" id="show_embed_button" status="' . $detail->lastProcess . '">Get Embed</button>
       </div>
       <div class="row">
@@ -406,4 +406,29 @@ function showEventDetail($detail)
       </div>
     </div></div>';
     return $tempText;
+}
+function showEmbedInList($info)
+{
+    if ($info['lastProcess'] == 'start') {
+        return '
+            <div _ngcontent-c11="" style="position: relative">
+                <div _ngcontent-c18="" style="position: relative">
+                    <div _ngcontent-c18="">
+                        <app-uiza-player _ngcontent-c18="" _nghost-c19="">
+                            <section _ngcontent-c19="" class="uiza-player">
+                                <div style="position: relative; display: block; max-width: 100%;">
+                                    <div style="padding-bottom: 56.25%;">
+                                        <iframe id="iframe-' . $info['id'] . '" src="https://sdk.uiza.io/#/' . get_option('uiza-app-id') . '/live/' . $info['id'] . '/embed?iframeId=iframe-' . $info['id'] . '&amp;streamName=' . $info['channelName'] . '&amp;region=ap-southeast-1&amp;feedId=' . $info['lastFeedId'] . '&amp;env=prod&amp;version=4&amp;native=true&amp;showCCU=true&amp;api=YXAtc291dGhlYXN0LTEtYXBpLnVpemEuY28=" style="position: absolute; top: 0px; right: 0px; bottom: 0px; left: 0px;" allowfullscreen="allowfullscreen" webkitallowfullscreen="webkitallowfullscreen" mozallowfullscreen="mozallowfullscreen" allow="autoplay; fullscreen; encrypted-media" width="100%" height="100%" frameborder="0"></iframe>
+                                    </div>
+                                </div>
+                            </section>
+                        </app-uiza-player>
+                    </div>
+                    <ul _ngcontent-c18="" class="ulInfo">
+                        <li _ngcontent-c18="" class="mr-top-6"><span _ngcontent-c18="" class="badge badge-success">Streaming</span></li>
+                    </ul>
+                </div>
+            </div>';
+    }
+    return '<div _ngcontent-c11="" style="position: relative"><div _ngcontent-c11="" class="img-tracking" style="background-image: url(\'' . plugin_dir_url(__FILE__) . '../images/imageHolder.jpg\');"></div></div>';
 }

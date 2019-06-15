@@ -108,3 +108,66 @@ danger[_ngcontent-c11], .toast-danger[_ngcontent-c11], a.btn-danger[_ngcontent-c
     display: inline-block;
     vertical-align: middle;
 }
+.badge[_ngcontent-c18] {
+    padding: .3125rem .9375rem !important;
+    font-weight: 300;
+}
+.badge {
+    display: inline-block;
+    padding: .25em .4em;
+    font-size: 75%;
+    font-weight: 700;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: .25rem;
+}
+ul.ulInfo[_ngcontent-c18] li[_ngcontent-c18]:last-child {
+    right: 3px;
+    position: absolute;
+    top: 3px;
+    width: -webkit-max-content;
+    width: -moz-max-content;
+    width: max-content;
+}
+ul.ulInfo[_ngcontent-c18] li[_ngcontent-c18] {
+    padding: 0;
+    display: inline-block;
+    width: 33%;
+}
+ul.list-event[_ngcontent-c18] li[_ngcontent-c18] {
+    display: inline-block;
+    width: 33%;
+    padding: 10px;
+}
+.mr-top-6[_ngcontent-c18] {
+    margin-top: 6px !important;
+}
+.mr-top-6 {
+    margin-top: 6px !important;
+}
+*, ::after, ::before {
+    box-sizing: border-box;
+}
+.event-detail[_ngcontent-c23] {
+    justify-content: center;
+}
+.pd-50[_ngcontent-c23] {
+    padding: 50px !important;
+}
+.pd-50 {
+    padding: 50px !important;
+}
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-right: -15px;
+    margin-left: -15px;
+}
+*, ::after, ::before {
+    box-sizing: border-box;
+}
+.card {
+    word-wrap: break-word;
+}
