@@ -55,7 +55,7 @@ function getLiveDetail($id)
 {
     init();
     try {
-        return Uiza\Entity::retrieve($id);
+        return Uiza\Live::retrieve($id);
     } catch (\Uiza\Exception\ErrorResponse $e) {
         return false;
     }
@@ -105,7 +105,7 @@ function startLiveEvent($id)
     try {
         return Uiza\Live::startFeed(["id" => $id]);
     } catch (\Uiza\Exception\ErrorResponse $e) {
-        return false;
+        return $e;
     }
 }
 
@@ -120,7 +120,7 @@ function stopLiveEvent($id)
     try {
         return Uiza\Live::stopFeed(["id" => $id]);
     } catch (\Uiza\Exception\ErrorResponse $e) {
-        return false;
+        return $e;
     }
 }
 
@@ -130,6 +130,7 @@ function stopLiveEvent($id)
  */
 function retrieveLive($id)
 {
+    init();
     try {
         return Uiza\Live::retrieve($id);
     } catch (\Uiza\Exception\ErrorResponse $e) {
@@ -137,6 +138,15 @@ function retrieveLive($id)
     }
 }
 
+function getCallback($id)
+{
+    init();
+    try {
+        return Uiza\Callback::retrieve($id);
+    } catch (\Uiza\Exception\ErrorResponse $e) {
+        return false;
+    }
+}
 /**
  * [listRecords]
  * @return [type] [description]
@@ -217,7 +227,7 @@ function uiza_page()
 function uiza_task()
 {
     echo '<div class="wrap"><h1>Create Task</h1>';
-    require_once "create_task.php";
+    require_once __DIR__ . "/../task/create_task.php";
     echo '</div>';
 }
 
@@ -228,12 +238,12 @@ function uiza_task()
 function uiza_event()
 {
     if (isset($_GET['id'])) {
-        require_once "event_detail.php";
+        require_once __DIR__ . "/../event/event_detail.php";
     } else {
         echo '<div class="wrap">';
         echo '<h1>Create new Live Event</h1>';
         echo '<label class="small">Create event for your livestream</label><br />';
-        require_once "create_event.php";
+        require_once __DIR__ . "/../event/create_event.php";
         echo '</div>';
     }
 }
@@ -245,11 +255,11 @@ function uiza_event()
 function uiza_entities()
 {
     if (isset($_GET['id'])) {
-        require_once "detail.php";
+        require_once __DIR__ . "/../entities\detail.php";
     } else {
         echo '<div class="wrap"><h1>Entities Management</h1>';
         //Module list
-        require_once "list.php";
+        require_once __DIR__ . "/../entities\list.php";
         echo '</div>';
     }
 }
@@ -258,7 +268,7 @@ function uiza_entity_detail()
     echo '<div class="wrap">';
     echo '<h1>Entity Detail</h1>';
     //Module list
-    require_once "detail.php";
+    require_once __DIR__ . "/../entities\detail.php";
     echo '</div>';
 }
 /**
@@ -325,7 +335,75 @@ function getEmbed($info)
 {
     return '<iframe id="iframe-' . $info['id'] . '" width="100%" height="100%" src="https://sdk.uiza.io/#/' . $info['app_id'] . '/publish/' . $info['id'] . '/embed?iframeId=iframe-' . $info['id'] . '&env=prod&version=4&api=YXAtc291dGhlYXN0LTEtYXBpLnVpemEuY28=&playerId=null" frameborder="0" allowfullscreen="allowfullscreen" webkitallowfullscreen="webkitallowfullscreen" mozallowfullscreen="mozallowfullscreen" allow="autoplay; fullscreen; encrypted-media"></iframe><script src=\'https://sdk.uiza.io/iframe_api.js\'/></script>';
 }
-function getEmbedStream()
+function getEmbedStream($live, $auth)
 {
-    return '<iframe id="iframe-79700531-5d4e-4b06-9f1f-8b3e3d9a8c76" src="https://sdk.uiza.io/#/11f00e8f302a4b20ae920cfa0d8752dc/live/79700531-5d4e-4b06-9f1f-8b3e3d9a8c76/embed?iframeId=iframe-79700531-5d4e-4b06-9f1f-8b3e3d9a8c76&amp;streamName=64a4883c-d652-4d22-a26f-2f097a48134d&amp;region=ap-southeast-1&amp;feedId=d7f336f1-e720-429b-a87a-d81de0b0bb21&amp;env=prod&amp;version=4&amp;native=true&amp;showCCU=true&amp;api=YXAtc291dGhlYXN0LTEtYXBpLnVpemEuY28=" style="position: absolute; top: 0px; right: 0px; bottom: 0px; left: 0px;" allowfullscreen="allowfullscreen" webkitallowfullscreen="webkitallowfullscreen" mozallowfullscreen="mozallowfullscreen" allow="autoplay; fullscreen; encrypted-media" width="100%" height="100%" frameborder="0"></iframe>';
+    return '<iframe id="iframe-' . $live->id . '" width="100%" height="100%" src="https://sdk.uiza.io/#/11f00e8f302a4b20ae920cfa0d8752dc/live/' . $live->id . '/embed?iframeId=iframe-' . $live->id . '&streamName=' . $live->channelName . '&region=ap-southeast-1&feedId=' . $live->lastFeedId . '&env=prod&version=4&native=true&showCCU=true&api=YXAtc291dGhlYXN0LTEtYXBpLnVpemEuY28=&playerId=null" frameborder="0" allowfullscreen="allowfullscreen" webkitallowfullscreen="webkitallowfullscreen" mozallowfullscreen="mozallowfullscreen" allow="autoplay; fullscreen; encrypted-media"></iframe><script src=\'https://sdk.uiza.io/iframe_api.js\'/></script>';
+}
+function showButtonEvent($status)
+{
+    if ($status == 'start') {
+        return '<button _ngcontent-c11="" class="btn btn-sm btn-danger mr-right-10" id="stop_live_btn" val="stop"><i _ngcontent-c11="" class="icon icon-stop" style="line-height: 0"></i>Stop Live </button>';
+    } else {
+        return '<button _ngcontent-c40="" class="btn btn-sm btn-info mr-right-10" id="start_live_btn" val="start"><i _ngcontent-c40="" class="icon icon-livestream" style="line-height: 0"></i>Start Live</button>';
+    }
+}
+function showErrorMessage($error)
+{
+    return '<div class="wrap"><div class="alert alert-danger alert-dismissible fade show" role="alert">' . $error . '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div></div>';
+}
+function showDefaultEmbed()
+{
+    return '<div class="col-md-7" style="background-image: url(' . plugin_dir_url(__FILE__) . '../images/imageHolder.jpg);height: 400px;">
+    <span class="badge badge-pill badge-secondary video-not-ready">Not Ready</span>
+    <div class="img-tracking"></div>
+</div>';
+}
+function showEventDetail($detail)
+{
+    $tempText = '<div class="row">';
+    if ($detail->lastProcess == 'start') {
+        $tempText .= '<div class="col-sm"><div class="embed-responsive embed-responsive-16by9">' .
+        getEmbedStream($detail, get_option('uiza-api-id')) .
+            '</div></div>';
+    } else {
+        $tempText .= showDefaultEmbed();
+    }
+    $tempText .= '<div class="col-sm">
+      <h4>Event Detail</h4>
+      <div _ngcontent-c39="" class="pull-right">
+          ' . showButtonEvent($detail->lastProcess) . '
+          <button class="btn btn-outline-secondary btn-sm btn-control px-2" data-target="#myModal" type="button" id="show_embed_button" status="' . $detail->lastProcess . '">Get Embed</button>
+      </div>
+      <div class="row">
+          <div class="col-md-5">
+              <label>Name</label>
+          </div>
+          <div class="col-md-7"><span class="ellipsis-items">' . $detail->name . '</span></div>
+      </div>
+      <div class="row">
+          <div class="col-md-5">
+              <label>Description</label>
+          </div>
+          <div class="col-md-7"><span class="ellipsis-items">' . $detail->description . '</span></div>
+      </div>
+      <div class="row">
+          <div class="col-md-5">
+              <label>Encode</label>
+          </div>
+          <div class="col-md-7"><span class="ellipsis-items">' . (($detail->encode == 1) ? 'Yes' : 'No') . '</span></div>
+      </div>
+      <div class="row">
+          <div class="col-md-5">
+              <label>Feed type</label>
+          </div>
+          <div class="col-md-7"><span class="ellipsis-items">' . $detail->mode . '</span></div>
+      </div>
+      <div class="row">
+          <div class="col-md-5">
+              <label>Link stream</label>
+          </div>
+          <div class="col-md-7"><span class="ellipsis-items">' . trim($detail->linkStream, '[|]|"') . '</span></div>
+      </div>
+    </div></div>';
+    return $tempText;
 }

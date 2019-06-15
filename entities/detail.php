@@ -1,5 +1,5 @@
 <?php
-require_once "common.php";
+require_once __DIR__ . "/../lib/common.php";
 $id = $_GET['id'];
 if ($id == '' || !preg_match('/^\w{8}-\w{4}-\w{4}-\w{4}-\w{12}$/', $id)) {
     die('<div class="wrap"><div class="alert alert-warning alert-dismissible fade show" role="alert">
@@ -47,7 +47,7 @@ if (isset($info) && $info['publishToCdn'] == 'success') {
     echo '<iframe class="embed-responsive-item" id="iframe-' . $info['id'] . '" src="https://sdk.uiza.io/#/' . $info['app_id'] . '/publish/' . $info['id'] . '/embed?iframeId=iframe-' . $info['id'] . '&env=prod&version=4" allowfullscreen="allowfullscreen" webkitallowfullscreen="webkitallowfullscreen" mozallowfullscreen="mozallowfullscreen" allow="autoplay; fullscreen; encrypted-media" width="100%" height="100%" frameborder="0"></iframe>';
     echo '</div></div>';
 } else {
-    echo '<div class="col-md-7" style="background-image: url(' . plugin_dir_url(__FILE__) . 'images/imageHolder.jpg);">
+    echo '<div class="col-md-7" style="background-image: url(' . plugin_dir_url(__FILE__) . '../images/imageHolder.jpg);">
     <span class="badge badge-pill badge-secondary video-not-ready">Not Ready</span>
     <div class="img-tracking"></div>
 </div>';

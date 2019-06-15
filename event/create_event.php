@@ -10,20 +10,29 @@
  --><input class="btn btn-primary btn-sm" type="submit" name="submit" value="Start Stream">
 </form>
 <?php
-if (isset($_POST['submit'])) {
-    $params = [
-        "name" => $_POST['event_name'],
-        "mode" => "pull",
-        "encode" => 0,
-        "dvr" => 0,
-        "description" => $_POST['description'],
-        "linkStream" => [
-            $_POST['link'],
-        ],
-        "resourceMode" => "single",
-    ];
-    $infoLive = createLiveEvent($params);
+if ($_POST['mode'] == 'ajax') {
+    if ($_POST['status'] == 'start') {
+        return startLiveEvent($_POST['id']);
+    } elseif ($_POST['status'] == 'stop') {
+        return stopLiveEvent($_POST['id']);
+    }
+} else {
+    if (isset($_POST['submit'])) {
+        $params = [
+            "name" => $_POST['event_name'],
+            "mode" => "pull",
+            "encode" => 0,
+            "dvr" => 0,
+            "description" => $_POST['description'],
+            "linkStream" => [
+                $_POST['link'],
+            ],
+            "resourceMode" => "single",
+        ];
+        $infoLive = createLiveEvent($params);
+    }
 }
+
 // if (isset($infoLive) && $infoLive !== false) {
 //     startLiveEvent($infoLive->id);
 //     require_once "event.php";
@@ -31,3 +40,4 @@ if (isset($_POST['submit'])) {
 $listLiveEvent = getListLive();
 require_once "event_list.php";
 ?>
+<video id="videojs-player_html5_api" webkit-playsinline="webkit-playsinline" playsinline="playsinline" class="vjs-tech" tabindex="-1" src="blob:https://sdk.uiza.io/bc9fa76b-3aec-4ee3-97b4-0e64a7c738ed"></video>

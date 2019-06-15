@@ -93,3 +93,18 @@ dl, ol, ul {
     background-repeat: no-repeat;
     background-position: center;
 }
+info[_ngcontent-c40]:hover {
+    background-color: #76dde1 !important;
+    border-color: #76dde1 !important;
+}
+danger[_ngcontent-c11], .toast-danger[_ngcontent-c11], a.btn-danger[_ngcontent-c11] {
+    color: #fff !important;
+    background-color: #e88787 !important;
+    border-color: #e88787 !important;
+}
+.badge[_ngcontent-c11] .icon[_ngcontent-c11], .bg[_ngcontent-c11] .icon[_ngcontent-c11], .btn[_ngcontent-c11] .icon[_ngcontent-c11], .toast[_ngcontent-c11] .icon[_ngcontent-c11], a.btn[_ngcontent-c11] .icon[_ngcontent-c11] {
+    font-size: inherit;
+    margin-right: .25rem;
+    display: inline-block;
+    vertical-align: middle;
+}

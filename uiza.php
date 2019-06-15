@@ -1,6 +1,6 @@
 <?php
 require __DIR__ . "/vendor/autoload.php";
-require_once "common.php";
+require_once __DIR__ . "/lib/common.php";
 
 /**
  * Uiza Plugin is the WordPress plugin for show video streaming, covert, upload video to S3.
