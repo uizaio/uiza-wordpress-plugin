@@ -162,6 +162,14 @@ function listRecords()
 
 }
 
+function convertToVOD($id)
+{
+    try {
+        return Uiza\Live::convertToVOD(["id" => $id]); // Identifier of record (get from list record)
+    } catch (\Uiza\Exception\ErrorResponse $e) {
+        return $e;
+    }
+}
 /**
  * [getStatusHtml]
  * @param  [type] $status [description]
@@ -394,6 +402,12 @@ function showEventDetail($detail)
       </div>
       <div class="row">
           <div class="col-md-5">
+              <label>Record Stream</label>
+          </div>
+          <div class="col-md-7"><span class="ellipsis-items">' . (($detail->dvr == 1) ? 'Yes' : 'No') . '</span></div>
+      </div>
+      <div class="row">
+          <div class="col-md-5">
               <label>Feed type</label>
           </div>
           <div class="col-md-7"><span class="ellipsis-items">' . $detail->mode . '</span></div>
@@ -431,4 +445,34 @@ function showEmbedInList($info)
             </div>';
     }
     return '<div _ngcontent-c11="" style="position: relative"><div _ngcontent-c11="" class="img-tracking" style="background-image: url(\'' . plugin_dir_url(__FILE__) . '../images/imageHolder.jpg\');"></div></div>';
+}
+function wailLiveStatus($id, $second, $status, $time_out_sec)
+{
+    $start = microtime(true);
+    while (1) {
+        $tmpDetail = getLiveDetail($id);
+        if ($tmpDetail->lastProcess == $status || microtime(true) - $start > $time_out_sec) {
+            return true;
+        }
+        sleep($second);
+    }
+    return false;
+}
+function startStopEvent()
+{
+    if (isset($_POST['h_status']) && isset($_POST['h_id'])) {
+        if ($_POST['h_status'] == 'start') {
+            $result = startLiveEvent($_POST['h_id']);
+            wailLiveStatus($_POST['h_id'], 1, 'start', 10);
+            if ($result->statusCode == 403) {
+                echo showErrorMessage('Sorry, this feed is not start now. Please try again later!');
+            }
+        } elseif ($_POST['h_status'] == 'stop') {
+            $result = stopLiveEvent($_POST['h_id']);
+            wailLiveStatus($_POST['h_id'], 1, 'stop', 10);
+            if ($result->statusCode == 400) {
+                echo showErrorMessage('Sorry, this feed is initialing, can not stop now. Please try again later!');
+            }
+        }
+    }
 }

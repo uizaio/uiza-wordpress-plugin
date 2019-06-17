@@ -5,8 +5,10 @@ $id = $_GET['id'];
 $live = $_GET['live'];
 $action = $_GET['action'];
 if ($id == '' || !preg_match('/^\w{8}-\w{4}-\w{4}-\w{4}-\w{12}$/', $id)) {
-    echo showErrorMessage('You should correct id as example: b55a899e-4c40-44ed-96c1-c767227366f4.');
+    die(showErrorMessage('You should correct id as example: b55a899e-4c40-44ed-96c1-c767227366f4.'));
 }
+//Process action start stop event
+startStopEvent();
 //Get detail live stream
 $detailLive = getLiveDetail($id);
 
@@ -61,6 +63,10 @@ if ($action == 'start') {
     </div>
   </div>
 </div>
+<form name="form1" id="form1" action="admin.php?page=uiza-event&id=<?=$id?>" method="post">
+    <input type="hidden" name="h_status" id="h_status" value="">
+    <input type="hidden" name="h_id" id="h_id" value="">
+</form>
 <script type="text/javascript">
   $(function() {
     $('#show_embed_button').click(function(e) {
@@ -86,6 +92,11 @@ if ($action == 'start') {
         var url = new URL(window.location.href);
         url.searchParams.set('action', $(this).attr('val'));
         window.location.href = url;
+    });
+    $('#start_live_btn, #stop_live_btn').click(function(e){
+        $('#h_status').val($(this).attr('val'));
+        $('#h_id').val($(this).attr('live'));
+        $('#form1').submit();
     });
   });
 </script>

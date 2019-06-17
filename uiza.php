@@ -27,6 +27,7 @@ require_once __DIR__ . "/lib/common.php";
 wp_enqueue_style('bootstrap.min.css', 'https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css');
 wp_enqueue_style('style.css', plugin_dir_url(__FILE__) . 'css/style.css');
 wp_enqueue_script('jquery-3.3.1.js', 'https://code.jquery.com/jquery-3.3.1.js');
+wp_enqueue_script('jquery.form-validator.min.js', 'https://cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.3.26/jquery.form-validator.min.js');
 wp_enqueue_script('popper.min.js', 'https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js');
 wp_enqueue_script('bootstrap.min.js', 'https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js');
 wp_enqueue_script('aws-sdk-2.283.1.min.js', 'https://sdk.amazonaws.com/js/aws-sdk-2.283.1.min.js');

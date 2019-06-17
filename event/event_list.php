@@ -1,20 +1,9 @@
 <?php
-if (isset($_POST['h_status']) && isset($_POST['h_id'])) {
-    if ($_POST['h_status'] == 'start') {
-        $result = startLiveEvent($_POST['h_id']);
-        if ($result->statusCode == 403) {
-            echo showErrorMessage('Sorry, this feed is not start now. Please try again later!');
-        }
-    } elseif ($_POST['h_status'] == 'stop') {
-        $result = stopLiveEvent($_POST['h_id']);
-        if ($result->statusCode == 400) {
-            echo showErrorMessage('Sorry, this feed is initialing, can not stop now. Please try again later!');
-        }
-    }
-}
+startStopEvent();
+$listLiveEvent = getListLive();
 ?>
 <div _ngcontent-c12="" class="card-body">
-<h5 _ngcontent-c11="" class="card-title">Tracking Event</h5>
+<h5 _ngcontent-c11="" class="card-title">Tracking Events</h5>
 <hr>
     <!---->
     <app-uiza-card-content _ngcontent-c11="">

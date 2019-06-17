@@ -171,3 +171,6 @@ ul.list-event[_ngcontent-c18] li[_ngcontent-c18] {
 .card {
     word-wrap: break-word;
 }
+.form-error {
+    color: red;
+}

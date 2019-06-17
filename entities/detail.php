@@ -2,12 +2,7 @@
 require_once __DIR__ . "/../lib/common.php";
 $id = $_GET['id'];
 if ($id == '' || !preg_match('/^\w{8}-\w{4}-\w{4}-\w{4}-\w{12}$/', $id)) {
-    die('<div class="wrap"><div class="alert alert-warning alert-dismissible fade show" role="alert">
-  <strong>Wrong format!</strong> You should correct id as example: b55a899e-4c40-44ed-96c1-c767227366f4.
-  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-    <span aria-hidden="true">&times;</span>
-  </button>
-</div></div>');
+    die(showErrorMessage('You should correct id as example: b55a899e-4c40-44ed-96c1-c767227366f4.'));
 }
 if (isset($_GET['publish']) && $_GET['publish'] == 1) {
     publicEntity($id);
