@@ -164,6 +164,7 @@ function listRecords()
 
 function convertToVOD($id)
 {
+    init();
     try {
         return Uiza\Live::convertToVOD(["id" => $id]); // Identifier of record (get from list record)
     } catch (\Uiza\Exception\ErrorResponse $e) {

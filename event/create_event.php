@@ -21,6 +21,10 @@
   });
 </script>
 <?php
+//Convert to VOD
+if (isset($_POST['h_cid'])) {
+    convertToVOD($_POST['h_cid']);
+}
 if ($_POST['mode'] == 'ajax') {
     if ($_POST['status'] == 'start') {
         return startLiveEvent($_POST['id']);
