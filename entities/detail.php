@@ -4,15 +4,9 @@ $id = $_GET['id'];
 if ($id == '' || !preg_match('/^\w{8}-\w{4}-\w{4}-\w{4}-\w{12}$/', $id)) {
     die(showErrorMessage('You should correct id as example: b55a899e-4c40-44ed-96c1-c767227366f4.'));
 }
-if (isset($_GET['publish']) && $_GET['publish'] == 1) {
+if (isset($_POST['h_publish']) && $_POST['h_publish'] == 1) {
     publicEntity($id);
-    while (1) {
-        sleep(2);
-        $tmpDetail = getEntityDetail($id);
-        if ($tmpDetail->publishToCdn == 'success') {
-            break;
-        }
-    }
+    wailPublicStatus($id, 1, 'success', 10);
 }
 $detail = getEntityDetail($id);
 $info = [
@@ -88,6 +82,10 @@ if (isset($info) && $info['publishToCdn'] == 'success') {
   </div>
 </div>
 
+<form name="form1" id="form1" action="admin.php?page=uiza-entities&id=<?=$id?>" method="post">
+    <input type="hidden" name="h_publish" id="h_publish" value="1">
+</form>
+
 <!-- The Modal -->
 <div class="modal" id="myModal">
   <div class="modal-dialog modal-embed modal-lg">
@@ -137,9 +135,7 @@ if (isset($info) && $info['publishToCdn'] == 'success') {
       if ($('#entity_id_text').attr('status') == 'success') {
         alert('The entity has already puslished!');
       } else {
-          var url = new URL($(location).attr("href"));
-          url.searchParams.set('publish', 1);
-          window.location.href = url;
+          $('#form1').submit();
       }
   });
   $('#close-modal, .close').click(function(e) {

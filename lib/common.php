@@ -264,11 +264,11 @@ function uiza_event()
 function uiza_entities()
 {
     if (isset($_GET['id'])) {
-        require_once __DIR__ . "/../entities\detail.php";
+        require_once __DIR__ . "/../entities/detail.php";
     } else {
         echo '<div class="wrap"><h1>Entities Management</h1>';
         //Module list
-        require_once __DIR__ . "/../entities\list.php";
+        require_once __DIR__ . "/../entities/list.php";
         echo '</div>';
     }
 }
@@ -277,7 +277,7 @@ function uiza_entity_detail()
     echo '<div class="wrap">';
     echo '<h1>Entity Detail</h1>';
     //Module list
-    require_once __DIR__ . "/../entities\detail.php";
+    require_once __DIR__ . "/../entities/detail.php";
     echo '</div>';
 }
 /**
@@ -453,6 +453,18 @@ function wailLiveStatus($id, $second, $status, $time_out_sec)
     while (1) {
         $tmpDetail = getLiveDetail($id);
         if ($tmpDetail->lastProcess == $status || microtime(true) - $start > $time_out_sec) {
+            return true;
+        }
+        sleep($second);
+    }
+    return false;
+}
+function wailPublicStatus($id, $second, $status, $time_out_sec)
+{
+    $start = microtime(true);
+    while (1) {
+        $tmpDetail = getEntityDetail($id);
+        if ($tmpDetail->publishToCdn == $status || microtime(true) - $start > $time_out_sec) {
             return true;
         }
         sleep($second);

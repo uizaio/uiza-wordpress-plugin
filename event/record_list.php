@@ -28,12 +28,12 @@ $records = listRecords();
   </tbody>
 </table>
 </div>
-<form name="form4" id="form4" action="admin.php?page=uiza-event" method="post">
+<form name="form5" id="form5" action="admin.php?page=uiza-event" method="post">
     <input type="hidden" name="h_cid" id="h_cid" value="">
 </form>
 <script type="text/javascript">
     $('#convert_to_vod').click(function(e){
         $('#h_cid').val($(this).attr('val'));
-        $('#form4').submit();
+        $('#form5').submit();
     });
 </script>

@@ -22,7 +22,7 @@ $listLiveEvent = getListLive();
     </app-uiza-card-content>
     <!---->
 </div>
-<form name="form1" id="form1" action="admin.php?page=uiza-event" method="post">
+<form name="form4" id="form4" action="admin.php?page=uiza-event" method="post">
     <input type="hidden" name="h_status" id="h_status" value="">
     <input type="hidden" name="h_id" id="h_id" value="">
 </form>
@@ -30,6 +30,6 @@ $listLiveEvent = getListLive();
     $('#start_live_btn, #stop_live_btn').click(function(e){
         $('#h_status').val($(this).attr('val'));
         $('#h_id').val($(this).attr('live'));
-        $('#form1').submit();
+        $('#form4').submit();
     });
 </script>

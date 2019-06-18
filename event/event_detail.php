@@ -63,7 +63,7 @@ if ($action == 'start') {
     </div>
   </div>
 </div>
-<form name="form1" id="form1" action="admin.php?page=uiza-event&id=<?=$id?>" method="post">
+<form name="form3" id="form3" action="admin.php?page=uiza-event&id=<?=$id?>" method="post">
     <input type="hidden" name="h_status" id="h_status" value="">
     <input type="hidden" name="h_id" id="h_id" value="">
 </form>
@@ -96,7 +96,7 @@ if ($action == 'start') {
     $('#start_live_btn, #stop_live_btn').click(function(e){
         $('#h_status').val($(this).attr('val'));
         $('#h_id').val($(this).attr('live'));
-        $('#form1').submit();
+        $('#form3').submit();
     });
   });
 </script>

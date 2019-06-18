@@ -193,10 +193,11 @@ var submitUpload = async ()=>{
   }catch(error){
     console.error(error);
   }
-
+  $('#embed-code-copy').show();
+  $("#select_file_upload").replaceWith($("#select_file_upload").val('').clone(true));
+  fileSelected = '';
   //step 5 done
   console.log('ALL DONE');
-  $('#embed-code-copy').show();
 };
 
 $(document).ready(async ()=>{
