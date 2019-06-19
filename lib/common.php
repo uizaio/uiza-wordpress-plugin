@@ -342,11 +342,11 @@ function getAppId()
  */
 function getEmbed($info)
 {
-    return '<iframe id="iframe-' . $info['id'] . '" width="100%" height="100%" src="https://sdk.uiza.io/#/' . $info['app_id'] . '/publish/' . $info['id'] . '/embed?iframeId=iframe-' . $info['id'] . '&env=prod&version=4&api=YXAtc291dGhlYXN0LTEtYXBpLnVpemEuY28=&playerId=null" frameborder="0" allowfullscreen="allowfullscreen" webkitallowfullscreen="webkitallowfullscreen" mozallowfullscreen="mozallowfullscreen" allow="autoplay; fullscreen; encrypted-media"></iframe><script src=\'https://sdk.uiza.io/iframe_api.js\'/></script>';
+    return '<iframe id="iframe-' . $info['id'] . '" width="560" height="315" src="https://sdk.uiza.io/#/' . $info['app_id'] . '/publish/' . $info['id'] . '/embed?iframeId=iframe-' . $info['id'] . '&env=prod&version=4&api=YXAtc291dGhlYXN0LTEtYXBpLnVpemEuY28=&playerId=null" frameborder="0" allowfullscreen="allowfullscreen" webkitallowfullscreen="webkitallowfullscreen" mozallowfullscreen="mozallowfullscreen" allow="autoplay; fullscreen; encrypted-media"></iframe><script src=\'https://sdk.uiza.io/iframe_api.js\'/></script>';
 }
 function getEmbedStream($live, $auth)
 {
-    return '<iframe id="iframe-' . $live->id . '" width="100%" height="100%" src="https://sdk.uiza.io/#/' . get_option('uiza-app-id') . '/live/' . $live->id . '/embed?iframeId=iframe-' . $live->id . '&streamName=' . $live->channelName . '&region=ap-southeast-1&feedId=' . $live->lastFeedId . '&env=prod&version=4&native=true&showCCU=true&api=YXAtc291dGhlYXN0LTEtYXBpLnVpemEuY28=&playerId=null" frameborder="0" allowfullscreen="allowfullscreen" webkitallowfullscreen="webkitallowfullscreen" mozallowfullscreen="mozallowfullscreen" allow="autoplay; fullscreen; encrypted-media"></iframe><script src=\'https://sdk.uiza.io/iframe_api.js\'/></script>';
+    return '<iframe id="iframe-' . $live->id . '" width="560" height="315" src="https://sdk.uiza.io/#/' . get_option('uiza-app-id') . '/live/' . $live->id . '/embed?iframeId=iframe-' . $live->id . '&streamName=' . $live->channelName . '&region=ap-southeast-1&feedId=' . $live->lastFeedId . '&env=prod&version=4&native=true&showCCU=true&api=YXAtc291dGhlYXN0LTEtYXBpLnVpemEuY28=&playerId=null" frameborder="0" allowfullscreen="allowfullscreen" webkitallowfullscreen="webkitallowfullscreen" mozallowfullscreen="mozallowfullscreen" allow="autoplay; fullscreen; encrypted-media"></iframe><script src=\'https://sdk.uiza.io/iframe_api.js\'/></script>';
 }
 function showButtonEvent($live)
 {
@@ -433,7 +433,7 @@ function showEmbedInList($info)
                             <section _ngcontent-c19="" class="uiza-player">
                                 <div style="position: relative; display: block; max-width: 100%;">
                                     <div style="padding-bottom: 56.25%;">
-                                        <iframe id="iframe-' . $info['id'] . '" src="https://sdk.uiza.io/#/' . get_option('uiza-app-id') . '/live/' . $info['id'] . '/embed?iframeId=iframe-' . $info['id'] . '&amp;streamName=' . $info['channelName'] . '&amp;region=ap-southeast-1&amp;feedId=' . $info['lastFeedId'] . '&amp;env=prod&amp;version=4&amp;native=true&amp;showCCU=true&amp;api=YXAtc291dGhlYXN0LTEtYXBpLnVpemEuY28=" style="position: absolute; top: 0px; right: 0px; bottom: 0px; left: 0px;" allowfullscreen="allowfullscreen" webkitallowfullscreen="webkitallowfullscreen" mozallowfullscreen="mozallowfullscreen" allow="autoplay; fullscreen; encrypted-media" width="100%" height="100%" frameborder="0"></iframe>
+                                        <iframe id="iframe-' . $info['id'] . '" src="https://sdk.uiza.io/#/' . get_option('uiza-app-id') . '/live/' . $info['id'] . '/embed?iframeId=iframe-' . $info['id'] . '&amp;streamName=' . $info['channelName'] . '&amp;region=ap-southeast-1&amp;feedId=' . $info['lastFeedId'] . '&amp;env=prod&amp;version=4&amp;native=true&amp;showCCU=true&amp;api=YXAtc291dGhlYXN0LTEtYXBpLnVpemEuY28=" style="position: absolute; top: 0px; right: 0px; bottom: 0px; left: 0px;" allowfullscreen="allowfullscreen" webkitallowfullscreen="webkitallowfullscreen" mozallowfullscreen="mozallowfullscreen" allow="autoplay; fullscreen; encrypted-media" width="560" height="315" frameborder="0"></iframe>
                                     </div>
                                 </div>
                             </section>
