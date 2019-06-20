@@ -4,6 +4,9 @@
     Upload video success.
 </div>
 </p>
+<div class="progress" style="display: none;">
+  <div class="progress-bar" style="width:0%"></div>
+</div>
 <div class="row">
     <div class="col-md-6">
         <div class="form-group files">
@@ -17,13 +20,20 @@
         </div>
     </div>
 </div>
+<div class="text-center" style="display: none;" id="loading">
+  <div class="spinner-border loader" role="status">
+    <span class="sr-only">Loading...</span>
+  </div>
+</div>
 <script type="text/javascript">
-    $("#close-show-embed").click(function(e) {
-        $("#embed-code-copy").hide();
-    });
-    $.validate({
-        lang: 'en',
-        errorMessagePosition: 'top',
-        errorMessageClass: 'form-error'
+    $(function() {
+        $("#close-show-embed").click(function(e) {
+            $("#embed-code-copy").hide();
+        });
+        $.validate({
+            lang: 'en',
+            errorMessagePosition: 'top',
+            errorMessageClass: 'form-error'
+        });
     });
 </script>

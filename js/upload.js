@@ -93,6 +93,12 @@ var uploadAWS = (configAWS, idCreated)=>{
       }
       console.log('update to s3 DONE', result);
       resolve(result);
+    }).on('httpUploadProgress', (event) => {
+        $('#loading').hide();
+        $('.progress').show();
+        this.progress = Math.round((event.loaded / event.total) * 100);
+        $('.progress-bar').css("width", this.progress + "%");
+        return event;
     });
   });
 };
@@ -141,7 +147,7 @@ var submitUpload = async ()=>{
   if(!fileSelected)
     return alert('File select empty');
   console.log('fileSelected',fileSelected);
-
+  $('#loading').show();
   var idCreated = null;
   var configAWS = null;
   var dataAWS = null;
@@ -193,6 +199,8 @@ var submitUpload = async ()=>{
   }catch(error){
     console.error(error);
   }
+  $('.progress').hide();
+  $('.progress-bar').css("width", "0%");
   $('#embed-code-copy').show();
   $("#select_file_upload").replaceWith($("#select_file_upload").val('').clone(true));
   fileSelected = '';

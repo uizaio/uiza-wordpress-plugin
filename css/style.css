@@ -57,7 +57,8 @@ textarea {
     text-align: center;
 }
 #select_file_upload {
-    padding: 120px 0 !important;
+    padding: 120px;
+    padding-left: 210px;
 }
 ul.list-event[_ngcontent-c11] li[_ngcontent-c11] {
     display: inline-block;
@@ -173,4 +174,24 @@ ul.list-event[_ngcontent-c18] li[_ngcontent-c18] {
 }
 .form-error {
     color: red;
+}
+.loader {
+    position: absolute;
+    left: 22%;
+    top: 10%;
+}
+.img-tracking[_ngcontent-c16] {
+    padding-top: 56.25%;
+    height: 0;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    position: relative;
+}
+.col-md-7 {
+        position: relative;
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+}
 }
