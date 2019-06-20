@@ -342,11 +342,11 @@ function getAppId()
  */
 function getEmbed($info)
 {
-    return '<iframe id="iframe-' . $info['id'] . '" width="560" height="315" src="https://sdk.uiza.io/#/' . $info['app_id'] . '/publish/' . $info['id'] . '/embed?iframeId=iframe-' . $info['id'] . '&env=prod&version=4&api=YXAtc291dGhlYXN0LTEtYXBpLnVpemEuY28=&playerId=null" frameborder="0" allowfullscreen="allowfullscreen" webkitallowfullscreen="webkitallowfullscreen" mozallowfullscreen="mozallowfullscreen" allow="autoplay; fullscreen; encrypted-media"></iframe><script src=\'https://sdk.uiza.io/iframe_api.js\'/></script>';
+    return '<iframe id="iframe-' . $info['id'] . '" width="560" height="315" src="https://sdk.uiza.io/#/' . $info['app_id'] . '/publish/' . $info['id'] . '/embed?iframeId=iframe-' . $info['id'] . '&amp;env=prod&amp;version=4&amp;api=YXAtc291dGhlYXN0LTEtYXBpLnVpemEuY28=&amp;playerId=null" frameborder="0" allowfullscreen="allowfullscreen" webkitallowfullscreen="webkitallowfullscreen" mozallowfullscreen="mozallowfullscreen" allow="autoplay; fullscreen; encrypted-media"></iframe><script src=\'https://sdk.uiza.io/iframe_api.js\'/></script>';
 }
 function getEmbedStream($live, $auth)
 {
-    return '<iframe id="iframe-' . $live->id . '" width="560" height="315" src="https://sdk.uiza.io/#/' . get_option('uiza-app-id') . '/live/' . $live->id . '/embed?iframeId=iframe-' . $live->id . '&streamName=' . $live->channelName . '&region=ap-southeast-1&feedId=' . $live->lastFeedId . '&env=prod&version=4&native=true&showCCU=true&api=YXAtc291dGhlYXN0LTEtYXBpLnVpemEuY28=&playerId=null" frameborder="0" allowfullscreen="allowfullscreen" webkitallowfullscreen="webkitallowfullscreen" mozallowfullscreen="mozallowfullscreen" allow="autoplay; fullscreen; encrypted-media"></iframe><script src=\'https://sdk.uiza.io/iframe_api.js\'/></script>';
+    return '<iframe id="iframe-' . $live->id . '" width="560" height="315" src="https://sdk.uiza.io/#/' . get_option('uiza-app-id') . '/live/' . $live->id . '/embed?iframeId=iframe-' . $live->id . '&amp;streamName=' . $live->channelName . '&amp;region=ap-southeast-1&amp;feedId=' . $live->lastFeedId . '&amp;env=prod&amp;version=4&amp;native=true&amp;showCCU=true&amp;api=YXAtc291dGhlYXN0LTEtYXBpLnVpemEuY28=&playerId=null" frameborder="0" allowfullscreen="allowfullscreen" webkitallowfullscreen="webkitallowfullscreen" mozallowfullscreen="mozallowfullscreen" allow="autoplay; fullscreen; encrypted-media"></iframe><script src=\'https://sdk.uiza.io/iframe_api.js\'/></script>';
 }
 function showButtonEvent($live)
 {
