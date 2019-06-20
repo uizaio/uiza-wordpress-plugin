@@ -362,7 +362,7 @@ function showErrorMessage($error)
 }
 function showDefaultEmbed()
 {
-    return '<div class="col-md-7" style="background-image: url(' . plugin_dir_url(__FILE__) . '../images/imageHolder.jpg);height: 400px;">
+    return '<div class="col-sm" style="background-image: url(' . plugin_dir_url(__FILE__) . '../images/imageHolder.jpg);height: 315px;">
     <span class="badge badge-pill badge-secondary video-not-ready">Not Ready</span>
     <div class="img-tracking"></div>
 </div>';

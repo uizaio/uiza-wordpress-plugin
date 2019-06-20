@@ -36,7 +36,7 @@ if (isset($info) && $info['publishToCdn'] == 'success') {
     echo '<iframe class="embed-responsive-item" id="iframe-' . $info['id'] . '" src="https://sdk.uiza.io/#/' . $info['app_id'] . '/publish/' . $info['id'] . '/embed?iframeId=iframe-' . $info['id'] . '&env=prod&version=4" allowfullscreen="allowfullscreen" webkitallowfullscreen="webkitallowfullscreen" mozallowfullscreen="mozallowfullscreen" allow="autoplay; fullscreen; encrypted-media" width="560" height="315" frameborder="0"></iframe>';
     echo '</div></div>';
 } else {
-    echo '<div class="col-md-7" style="background-image: url(' . plugin_dir_url(__FILE__) . '../images/imageHolder.jpg);">
+    echo '<div class="col-sm" style="background-image: url(' . plugin_dir_url(__FILE__) . '../images/imageHolder.jpg);height: 315px;">
     <span class="badge badge-pill badge-secondary video-not-ready">Not Ready</span>
     <div class="img-tracking"></div>
 </div>';

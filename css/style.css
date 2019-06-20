@@ -194,4 +194,9 @@ ul.list-event[_ngcontent-c18] li[_ngcontent-c18] {
     padding-right: 15px;
     padding-left: 15px;
 }
+.video-not-ready[_ngcontent-c16] {
+    position: absolute;
+    top: .5rem;
+    right: 1.4375rem;
+    z-index: 1;
 }
