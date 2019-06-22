@@ -36,7 +36,7 @@ if (isset($info) && $info['publishToCdn'] == 'success') {
     echo '<iframe class="embed-responsive-item" id="iframe-' . $info['id'] . '" src="https://sdk.uiza.io/#/' . $info['app_id'] . '/publish/' . $info['id'] . '/embed?iframeId=iframe-' . $info['id'] . '&env=prod&version=4" allowfullscreen="allowfullscreen" webkitallowfullscreen="webkitallowfullscreen" mozallowfullscreen="mozallowfullscreen" allow="autoplay; fullscreen; encrypted-media" width="560" height="315" frameborder="0"></iframe>';
     echo '</div></div>';
 } else {
-    echo '<div class="col-sm" style="background-image: url(' . plugin_dir_url(__FILE__) . '../images/imageHolder.jpg);height: 315px;">
+    echo '<div class="col-sm" style="background-image: url(' . plugin_dir_url(__FILE__) . '../images/imageHolder.jpg);height: 315px;background-position: 50% center;">
     <span class="badge badge-pill badge-secondary video-not-ready">Not Ready</span>
     <div class="img-tracking"></div>
 </div>';
@@ -44,9 +44,11 @@ if (isset($info) && $info['publishToCdn'] == 'success') {
 ?>
     <div class="col-sm">
       <h4>Entity's information</h4>
-      <div _ngcontent-c39="" class="pull-right">
-          <button class="btn btn-success btn-sm" id="publish-entity" type="button"><i class="icon-publish"></i> Publish</button>
-          <button class="btn btn-outline-secondary btn-sm btn-control px-2" data-target="#myModal" type="button" id="show_embed_button">Get Embed</button>
+      <div class="row">
+        <div _ngcontent-c39="" class="col-md-5">
+            <button class="btn btn-success btn-sm" id="publish-entity" type="button"><i class="icon-publish"></i> Publish</button>
+            <button class="btn btn-outline-secondary btn-sm btn-control px-2" data-target="#myModal" type="button" id="show_embed_button">Get Embed</button>
+        </div>
       </div>
       <div class="row">
           <div class="col-md-5">

@@ -362,7 +362,7 @@ function showErrorMessage($error)
 }
 function showDefaultEmbed()
 {
-    return '<div class="col-sm" style="background-image: url(' . plugin_dir_url(__FILE__) . '../images/imageHolder.jpg);height: 315px;">
+    return '<div class="col-sm" style="background-image: url(' . plugin_dir_url(__FILE__) . '../images/imageHolder.jpg);height: 315px;background-position: 50% center;">
     <span class="badge badge-pill badge-secondary video-not-ready">Not Ready</span>
     <div class="img-tracking"></div>
 </div>';
@@ -379,9 +379,11 @@ function showEventDetail($detail)
     }
     $tempText .= '<div class="col-sm">
       <h4>Event Detail</h4>
-      <div _ngcontent-c39="" class="pull-right">
-          ' . showButtonEvent($detail) . '
-          <button class="btn btn-outline-secondary btn-sm btn-control px-2" data-target="#myModal" type="button" id="show_embed_button" status="' . $detail->lastProcess . '">Get Embed</button>
+      <div class="row">
+          <div _ngcontent-c39="" class="col-md-5">
+              ' . showButtonEvent($detail) . '
+              <button class="btn btn-outline-secondary btn-sm btn-control px-2" data-target="#myModal" type="button" id="show_embed_button" status="' . $detail->lastProcess . '">Get Embed</button>
+          </div>
       </div>
       <div class="row">
           <div class="col-md-5">
