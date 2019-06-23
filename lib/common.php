@@ -41,7 +41,7 @@ function getEntityDetail($id)
     try {
         return Uiza\Entity::retrieve($id);
     } catch (\Uiza\Exception\ErrorResponse $e) {
-        return false;
+        return $e;
     }
 
 }
@@ -71,9 +71,9 @@ function publicEntity($entityId)
 {
     init();
     try {
-        Uiza\Entity::publish(["id" => $entityId]);
+        return Uiza\Entity::publish(["id" => $entityId]);
     } catch (\Uiza\Exception\ErrorResponse $e) {
-        return false;
+        return $e;
     }
 
 }
@@ -490,4 +490,32 @@ function startStopEvent()
             }
         }
     }
+}
+
+function publish_entity_ajax()
+{
+    if (isset($_REQUEST)) {
+        $id = $_REQUEST['entity_id'];
+        $result = getEntityDetail($id);
+        if ($result->publishToCdn == 'success') {
+            wp_send_json(json_encode(['error' => 1, 'message' => 'The entity has already puslished!', 'data' => $result->getLastResponse()->json]));
+        } else {
+            publicEntity($id);
+            wailPublicStatus($id, 2, 'success', 180);
+            $result = getEntityDetail($id);
+            if ($result->publishToCdn == 'success') {
+                wp_send_json(json_encode(['error' => 0, 'message' => 'The entity was puslished successfully!', 'data' => $result->getLastResponse()->json]));
+            } else {
+                wp_send_json(json_encode(['error' => 1, 'message' => 'The entity is inprogress, please wait...!', 'data' => $result->getLastResponse()->json]));
+            }
+        }
+    }
+}
+function showWaiting()
+{
+    return '<div class="text-center" style="display: none;" id="loading">
+  <div class="spinner-border loading-gif" role="status">
+    <span class="sr-only">Loading...</span>
+  </div>
+</div>';
 }

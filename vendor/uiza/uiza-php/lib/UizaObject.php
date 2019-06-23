@@ -1,7 +1,8 @@
 <?php
 namespace Uiza;
 
-class UizaObject implements \ArrayAccess, \Countable, \JsonSerializable {
+class UizaObject implements \ArrayAccess, \Countable, \JsonSerializable
+{
 
     protected $_values;
 
@@ -69,12 +70,14 @@ class UizaObject implements \ArrayAccess, \Countable, \JsonSerializable {
         }
     }
 
-    public function __set($k, $v) {
+    public function __set($k, $v)
+    {
         $this->_values[$k] = $v;
         $this->dirty($k);
     }
 
-    public function __get($k) {
+    public function __get($k)
+    {
         if (!empty($this->_values) && array_key_exists($k, $this->_values)) {
             return $this->_values[$k];
         }
@@ -137,6 +140,10 @@ class UizaObject implements \ArrayAccess, \Countable, \JsonSerializable {
         $this->_lastResponse = $resp;
     }
 
+    public function getLastResponse()
+    {
+        return $this->_lastResponse;
+    }
     public static function flattenAttri($values)
     {
         if (array_key_exists('data', $values)) {
@@ -169,7 +176,7 @@ class UizaObject implements \ArrayAccess, \Countable, \JsonSerializable {
         // are different types. This is in case the two values are not the same type
         // we can do a fair comparison of the two values to know if this is dirty.
         return is_numeric($current) && is_numeric($original)
-            && strcmp((string) $current, (string) $original) === 0;
+        && strcmp((string) $current, (string) $original) === 0;
     }
 
     /**
@@ -181,10 +188,10 @@ class UizaObject implements \ArrayAccess, \Countable, \JsonSerializable {
     {
         $dirty = [];
         foreach ($this->_values as $key => $value) {
-            if (! array_key_exists($key, $this->_originalValues)) {
+            if (!array_key_exists($key, $this->_originalValues)) {
                 $dirty[$key] = $value;
             } elseif ($value !== $this->original[$key] &&
-                    ! $this->originalIsNumericallyEquivalent($key)) {
+                !$this->originalIsNumericallyEquivalent($key)) {
                 $dirty[$key] = $value;
             }
         }

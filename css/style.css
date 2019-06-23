@@ -200,3 +200,9 @@ ul.list-event[_ngcontent-c18] li[_ngcontent-c18] {
     right: 1.4375rem;
     z-index: 1;
 }
+.loading-gif {
+position: absolute;
+top: 14%;
+left: 50%;
+margin: -50px 0px 0px -50px;
+}

@@ -21,6 +21,7 @@ $info = [
 
 ];
 ?>
+<div id="message_display"></div>
 <div class="container">
 <p>
 <div class="alert alert-success alert-dismissible" id="embed-code-copy" style="display: none;">
@@ -31,16 +32,16 @@ $info = [
 <p><h4>Detail</h4></p>
 <div class="row">
 	<?php
+echo '<div class="col-sm" id="show_embed_video_play">';
 if (isset($info) && $info['publishToCdn'] == 'success') {
-    echo '<div class="col-sm"><div class="embed-responsive embed-responsive-16by9">';
     echo '<iframe class="embed-responsive-item" id="iframe-' . $info['id'] . '" src="https://sdk.uiza.io/#/' . $info['app_id'] . '/publish/' . $info['id'] . '/embed?iframeId=iframe-' . $info['id'] . '&env=prod&version=4" allowfullscreen="allowfullscreen" webkitallowfullscreen="webkitallowfullscreen" mozallowfullscreen="mozallowfullscreen" allow="autoplay; fullscreen; encrypted-media" width="560" height="315" frameborder="0"></iframe>';
-    echo '</div></div>';
 } else {
     echo '<div class="col-sm" style="background-image: url(' . plugin_dir_url(__FILE__) . '../images/imageHolder.jpg);height: 315px;background-position: 50% center;">
     <span class="badge badge-pill badge-secondary video-not-ready">Not Ready</span>
     <div class="img-tracking"></div>
 </div>';
 }
+echo '</div>';
 ?>
     <div class="col-sm">
       <h4>Entity's information</h4>
@@ -87,7 +88,7 @@ if (isset($info) && $info['publishToCdn'] == 'success') {
 <form name="form1" id="form1" action="admin.php?page=uiza-entities&id=<?=$id?>" method="post">
     <input type="hidden" name="h_publish" id="h_publish" value="1">
 </form>
-
+<?=showWaiting()?>
 <!-- The Modal -->
 <div class="modal" id="myModal">
   <div class="modal-dialog modal-embed modal-lg">
@@ -121,7 +122,7 @@ if (isset($info) && $info['publishToCdn'] == 'success') {
       if ($('#entity_id_text').attr('status') == 'success') {
         $('#myModal').show();
       } else {
-        alert('The entity is not ready, please wait ....');
+        $('#message_display').html(showMessage('The entity is not ready, please wait....', 'warning'));
       }
   });
   $("#copy").click(function(){
@@ -133,14 +134,46 @@ if (isset($info) && $info['publishToCdn'] == 'success') {
   $("#close-show-embed").click(function(e) {
     $("#embed-code-copy").hide();
   });
-  $('#publish-entity').click(function(e) {
-      if ($('#entity_id_text').attr('status') == 'success') {
-        alert('The entity has already puslished!');
-      } else {
-          $('#form1').submit();
-      }
-  });
+  // $('#publish-entity').click(function(e) {
+  //     if ($('#entity_id_text').attr('status') == 'success') {
+  //       alert('The entity has already puslished!');
+  //     } else {
+  //         $('#form1').submit();
+  //     }
+  // });
   $('#close-modal, .close').click(function(e) {
     $('#myModal').hide();
   });
+  jQuery(document).ready(function($) {
+    $('#publish-entity').click(function(e){
+        $('#loading').show();
+        $.ajax({
+          url: ajaxurl,
+          data: {
+              'action': 'publish_entity_ajax',
+              'entity_id' : '<?=$id?>'
+          },
+          type: 'POST',
+          dataType: 'json',
+          async: false,
+          success:function(data) {
+            var jsonDecode = JSON.parse(data);
+            console.log(jsonDecode);
+            //showEmbledPlayer
+            if (jsonDecode['error'] == '0') {
+              $('#entity_id_text').attr('status', 'success');
+              $('#show_embed_video_play').html(showEmbledPlayer(JSON.parse(jsonDecode['data'])['data'], '<?=get_option('uiza-app-id')?>'));
+              $('#show_embed_text').text(showEmbledPlayer(JSON.parse(jsonDecode['data'])['data'], '<?=get_option('uiza-app-id')?>'));
+              $('#message_display').html(showMessage(jsonDecode['message'], 'success'));
+            } else {
+              $('#message_display').html(showMessage(jsonDecode['message'], 'warning'));
+            }
+            $('#loading').hide();
+          },
+          error: function(errorThrown){
+              $('#loading').hide();
+          }
+        });
+    });
+});
 </script>

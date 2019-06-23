@@ -26,7 +26,7 @@ class Entity extends ApiResource
     public static function search($params = [])
     {
         self::_validateParams('Search', $params);
-        $params = array_merge($params, [ 'appId' => \Uiza\Base::$appId ]);
+        $params = array_merge($params, ['appId' => \Uiza\Base::$appId]);
         $url = static::resourceUrl() . '/search';
         $response = static::_staticRequest('GET', $url, $params);
 
@@ -36,7 +36,7 @@ class Entity extends ApiResource
     public static function publish($params = [])
     {
         self::_validateParams('Publish', $params);
-        $params = array_merge($params, [ 'appId' => \Uiza\Base::$appId ]);
+        $params = array_merge($params, ['appId' => \Uiza\Base::$appId]);
         $url = static::resourceUrl() . '/publish';
         $response = static::_staticRequest('POST', $url, $params);
         $instance = new static($params['id']);
@@ -48,9 +48,9 @@ class Entity extends ApiResource
 
     public static function getStatusPublish($id, $params = [])
     {
-        $params = array_merge($params,[
+        $params = array_merge($params, [
             'id' => $id,
-            'appId' => \Uiza\Base::$appId
+            'appId' => \Uiza\Base::$appId,
         ]);
         self::_validateParams('GetStatusPublish', $params);
         $url = static::resourceUrl() . '/publish/status';
@@ -64,8 +64,8 @@ class Entity extends ApiResource
 
     public static function getAWSUploadKey($params = [])
     {
-        $url = Base::getBaseUrl(). 'admin/app/config/aws';
-        $params = array_merge($params, [ 'appId' => \Uiza\Base::$appId ]);
+        $url = Base::getBaseUrl() . 'admin/app/config/aws';
+        $params = array_merge($params, ['appId' => \Uiza\Base::$appId]);
         $response = static::_staticRequest('GET', $url, $params);
 
         return $response;
@@ -86,7 +86,7 @@ class Entity extends ApiResource
 
         $updateParams = array_merge($updateParams, [
             'id' => $this['id'],
-            'appId' => \Uiza\Base::$appId
+            'appId' => \Uiza\Base::$appId,
         ]);
 
         return $updateParams;

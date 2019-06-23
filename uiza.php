@@ -38,3 +38,5 @@ wp_enqueue_script('upload.js', plugin_dir_url(__FILE__) . 'js/upload.js');
 add_action("admin_menu", "uiza_add_menu");
 //Uiza Setting
 add_action("admin_init", "uiza_settings");
+
+add_action('wp_ajax_publish_entity_ajax', 'publish_entity_ajax');

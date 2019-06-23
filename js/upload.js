@@ -199,6 +199,9 @@ var submitUpload = async ()=>{
   }catch(error){
     console.error(error);
   }
+  //$('#show_embed_video_play_single').html(showEmbledPlayer(entityDetail, $('#api-app-id-h').val()));
+  $('#info_public_single').html('<td><a href="admin.php?page=uiza-entities&id=' + entityDetail['data']['id'] + '">' + entityDetail['data']['name'] + '</a></td><td id="publish_to_cdn">' + entityDetail['data']['publishToCdn'] + '</td><td><button id="public_single_act" class="btn btn-success btn-sm" entity_id="' + entityDetail['data']['id'] + '">Publish</button></td>');
+  $('#table_show_single_video').show();
   $('.progress').hide();
   $('.progress-bar').css("width", "0%");
   $('#embed-code-copy').show();
