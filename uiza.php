@@ -40,3 +40,4 @@ add_action("admin_menu", "uiza_add_menu");
 add_action("admin_init", "uiza_settings");
 
 add_action('wp_ajax_publish_entity_ajax', 'publish_entity_ajax');
+add_action('wp_ajax_start_stop_event_ajax', 'start_stop_event_ajax');

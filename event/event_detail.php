@@ -25,6 +25,7 @@ if ($action == 'start') {
 }
 ?>
 </div>
+<div id="message_display"></div>
 <div class="container">
 <p>
 <div class="alert alert-success alert-dismissible" id="embed-code-copy" style="display: none;">
@@ -49,7 +50,7 @@ if ($action == 'start') {
       <!-- Modal body -->
       <div class="modal-body">
         <textarea rows="10" readonly="true" id="show_embed_text">
-          <?=getEmbedStream($detailLive, get_option('uiza-api-id'))?>
+          <?=getEmbedStream($detailLive)?>
         </textarea>
      </div>
 
@@ -67,6 +68,7 @@ if ($action == 'start') {
     <input type="hidden" name="h_status" id="h_status" value="">
     <input type="hidden" name="h_id" id="h_id" value="">
 </form>
+<?=showWaiting()?>
 <script type="text/javascript">
   $(function() {
     $('#show_embed_button').click(function(e) {
@@ -88,15 +90,45 @@ if ($action == 'start') {
     $('#close-modal, .close').click(function(e) {
       $('#myModal').hide();
     });
-    $('#start_live_btn, #stop_live_btn').click(function(e) {
-        var url = new URL(window.location.href);
-        url.searchParams.set('action', $(this).attr('val'));
-        window.location.href = url;
-    });
+    // $('#start_live_btn, #stop_live_btn').click(function(e) {
+    //     var url = new URL(window.location.href);
+    //     url.searchParams.set('action', $(this).attr('val'));
+    //     window.location.href = url;
+    // });
+    // $('#start_live_btn, #stop_live_btn').click(function(e){
+    //     $('#h_status').val($(this).attr('val'));
+    //     $('#h_id').val($(this).attr('live'));
+    //     $('#form3').submit();
+    // });
     $('#start_live_btn, #stop_live_btn').click(function(e){
-        $('#h_status').val($(this).attr('val'));
-        $('#h_id').val($(this).attr('live'));
-        $('#form3').submit();
+        e.preventDefault();
+        $('#loading').show();
+        $.ajax({
+          url: ajaxurl,
+          data: {
+              'action': 'start_stop_event_ajax',
+              'live' : $(this).attr('live'),
+              'status' : $(this).attr('val'),
+          },
+          type: 'POST',
+          dataType: 'json',
+          async: false,
+          success:function(data) {
+            var jsonDecode = JSON.parse(data);
+            //showEmbledPlayer
+            if (jsonDecode['error'] == '0') {
+              $('#show_embed_video_play').html(showEmbledStream(JSON.parse(jsonDecode['data'])['data'], '<?=get_option('uiza-app-id')?>'));
+              $('#show_embed_text').text(showEmbledStream(JSON.parse(jsonDecode['data'])['data'], '<?=get_option('uiza-app-id')?>'));
+              $('#message_display').html(showMessage(jsonDecode['message'], 'success'));
+            } else {
+              $('#message_display').html(showMessage(jsonDecode['message'], 'warning'));
+            }
+            $('#loading').hide();
+          },
+          error: function(errorThrown){
+              $('#loading').hide();
+          }
+        });
     });
   });
 </script>

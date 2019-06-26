@@ -344,7 +344,7 @@ function getEmbed($info)
 {
     return '<iframe id="iframe-' . $info['id'] . '" width="560" height="315" src="https://sdk.uiza.io/#/' . $info['app_id'] . '/publish/' . $info['id'] . '/embed?iframeId=iframe-' . $info['id'] . '&amp;env=prod&amp;version=4&amp;api=YXAtc291dGhlYXN0LTEtYXBpLnVpemEuY28=&amp;playerId=null" frameborder="0" allowfullscreen="allowfullscreen" webkitallowfullscreen="webkitallowfullscreen" mozallowfullscreen="mozallowfullscreen" allow="autoplay; fullscreen; encrypted-media"></iframe><script src=\'https://sdk.uiza.io/iframe_api.js\'/></script>';
 }
-function getEmbedStream($live, $auth)
+function getEmbedStream($live)
 {
     return '<iframe id="iframe-' . $live->id . '" width="560" height="315" src="https://sdk.uiza.io/#/' . get_option('uiza-app-id') . '/live/' . $live->id . '/embed?iframeId=iframe-' . $live->id . '&amp;streamName=' . $live->channelName . '&amp;region=ap-southeast-1&amp;feedId=' . $live->lastFeedId . '&amp;env=prod&amp;version=4&amp;native=true&amp;showCCU=true&amp;api=YXAtc291dGhlYXN0LTEtYXBpLnVpemEuY28=&playerId=null" frameborder="0" allowfullscreen="allowfullscreen" webkitallowfullscreen="webkitallowfullscreen" mozallowfullscreen="mozallowfullscreen" allow="autoplay; fullscreen; encrypted-media"></iframe><script src=\'https://sdk.uiza.io/iframe_api.js\'/></script>';
 }
@@ -369,57 +369,61 @@ function showDefaultEmbed()
 }
 function showEventDetail($detail)
 {
-    $tempText = '<div class="row">';
+    $tempText = '<div class="row"><div class="col-sm" id="show_embed_video_play">';
     if ($detail->lastProcess == 'start') {
-        $tempText .= '<div class="col-sm"><div class="embed-responsive embed-responsive-16by9">' .
-        getEmbedStream($detail, get_option('uiza-api-id')) .
-            '</div></div>';
+        $tempText .= getEmbedStream($detail);
     } else {
         $tempText .= showDefaultEmbed();
     }
-    $tempText .= '<div class="col-sm">
+    $tempText .= '</div><div class="col-sm">
       <h4>Event Detail</h4>
       <div class="row">
-          <div _ngcontent-c39="" class="col-md-5">
+          <div _ngcontent-c39="" class="col-md-8">
               ' . showButtonEvent($detail) . '
               <button class="btn btn-outline-secondary btn-sm btn-control px-2" data-target="#myModal" type="button" id="show_embed_button" status="' . $detail->lastProcess . '">Get Embed</button>
           </div>
       </div>
       <div class="row">
-          <div class="col-md-5">
+          <div class="col-md-3">
               <label>Name</label>
           </div>
           <div class="col-md-7"><span class="ellipsis-items">' . $detail->name . '</span></div>
       </div>
       <div class="row">
-          <div class="col-md-5">
+          <div class="col-md-3">
               <label>Description</label>
           </div>
           <div class="col-md-7"><span class="ellipsis-items">' . $detail->description . '</span></div>
       </div>
       <div class="row">
-          <div class="col-md-5">
+          <div class="col-md-3">
               <label>Encode</label>
           </div>
           <div class="col-md-7"><span class="ellipsis-items">' . (($detail->encode == 1) ? 'Yes' : 'No') . '</span></div>
       </div>
       <div class="row">
-          <div class="col-md-5">
+          <div class="col-md-3">
               <label>Record Stream</label>
           </div>
           <div class="col-md-7"><span class="ellipsis-items">' . (($detail->dvr == 1) ? 'Yes' : 'No') . '</span></div>
       </div>
       <div class="row">
-          <div class="col-md-5">
+          <div class="col-md-3">
               <label>Feed type</label>
           </div>
           <div class="col-md-7"><span class="ellipsis-items">' . $detail->mode . '</span></div>
       </div>
       <div class="row">
-          <div class="col-md-5">
-              <label>Link stream</label>
+          <div class="col-md-3">
+              <label>Stream url</label>
           </div>
-          <div class="col-md-7"><span class="ellipsis-items">' . trim($detail->linkStream, '[|]|"') . '</span></div>
+          <div class="col-md-9"><span class="ellipsis-items">' . $detail[0]['streamUrl'] . '</span></div>
+      </div>
+      <div class="row">
+          <div class="col-md-3">
+              <label>Stream key</label>
+          </div>
+          <div class="col-md-9"><span class="ellipsis-items">' . $detail[0]['streamKey'] . '</span></div>
       </div>
     </div></div>';
     return $tempText;
@@ -507,6 +511,32 @@ function publish_entity_ajax()
                 wp_send_json(json_encode(['error' => 0, 'message' => 'The entity was puslished successfully!', 'data' => $result->getLastResponse()->json]));
             } else {
                 wp_send_json(json_encode(['error' => 1, 'message' => 'The entity is inprogress, please wait...!', 'data' => $result->getLastResponse()->json]));
+            }
+        }
+    }
+}
+function start_stop_event_ajax()
+{
+    if (isset($_REQUEST)) {
+        $live = $_REQUEST['live'];
+        $status = $_REQUEST['status'];
+        if ($status == 'start') {
+            $resultStart = startLiveEvent($live);
+            //wailLiveStatus($live, 1, 'start', 10);
+            if ($resultStart->statusCode == 403) {
+                wp_send_json(json_encode(['error' => 1, 'message' => 'Sorry, this feed is not start now. Please try again later!', 'data' => $result->getLastResponse()->json]));
+            } else {
+                $result = getLiveDetail($live);
+                wp_send_json(json_encode(['error' => 0, 'message' => 'The streaming event was start successfully!', 'data' => $result->getLastResponse()->json]));
+            }
+        } elseif ($status == 'stop') {
+            $result = stopLiveEvent($live);
+            //wailLiveStatus('live', 1, 'stop', 10);
+            if ($result->statusCode == 400) {
+                wp_send_json(json_encode(['error' => 1, 'message' => 'Sorry, this feed is initialing, can not stop now. Please try again later!', 'data' => $result->getLastResponse()->json]));
+            } else {
+                wp_send_json(json_encode(['error' => 0, 'message' => 'The streaming event was stop successfully!', 'data' => $result->getLastResponse()->json]));
+
             }
         }
     }

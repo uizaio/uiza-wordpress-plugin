@@ -2,7 +2,7 @@
 * @Author: tritruong
 * @Date:   2019-06-08 23:25:34
 * @Last Modified by:   tritruong
-* @Last Modified time: 2019-06-23 14:11:36
+* @Last Modified time: 2019-06-26 06:56:32
 */
 function showMessage(message, className) {
 	return '<div class="wrap">' +
@@ -13,4 +13,7 @@ function showMessage(message, className) {
 }
 function showEmbledPlayer(info, appId) {
 	return '<iframe class="embed-responsive-item" id="iframe-' + info['id'] + '" src="https://sdk.uiza.io/#/' + appId + '/publish/' + info['id'] + '/embed?iframeId=iframe-' + info['id'] + '&env=prod&version=4" allowfullscreen="allowfullscreen" webkitallowfullscreen="webkitallowfullscreen" mozallowfullscreen="mozallowfullscreen" allow="autoplay; fullscreen; encrypted-media" width="560" height="315" frameborder="0"></iframe>';
+}
+function showEmbledStream(live, appId) {
+	return '<iframe id="iframe-' + live['id'] + '" width="560" height="315" src="https://sdk.uiza.io/#/' + appId + '/live/' + live['id'] + '/embed?iframeId=iframe-' + live['id'] + '&amp;streamName=' + live['channelName'] + '&amp;region=ap-southeast-1&amp;feedId=' + live['lastFeedId'] + '&amp;env=prod&amp;version=4&amp;native=true&amp;showCCU=true&amp;api=YXAtc291dGhlYXN0LTEtYXBpLnVpemEuY28=&playerId=null" frameborder="0" allowfullscreen="allowfullscreen" webkitallowfullscreen="webkitallowfullscreen" mozallowfullscreen="mozallowfullscreen" allow="autoplay; fullscreen; encrypted-media"></iframe><script src=\'https://sdk.uiza.io/iframe_api.js\'/></script>';
 }
