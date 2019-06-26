@@ -9,7 +9,7 @@
   <div class="progress-bar" style="width:0%"></div>
 </div>
 <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-8">
         <div class="form-group files">
             <label>Upload Your Video</label>
             <input type="file" class="form-control" id="select_file_upload" data-validation-allowing="mp4, avi, mov, flv, wmv, kmv" accept=".mp4,.avi,.mov,.flv,.wmv, .kmv" onchange="changeFile(event)">

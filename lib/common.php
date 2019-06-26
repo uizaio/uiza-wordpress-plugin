@@ -482,13 +482,13 @@ function startStopEvent()
     if (isset($_POST['h_status']) && isset($_POST['h_id'])) {
         if ($_POST['h_status'] == 'start') {
             $result = startLiveEvent($_POST['h_id']);
-            wailLiveStatus($_POST['h_id'], 1, 'start', 10);
+            wailLiveStatus($_POST['h_id'], 1, 'start', 120);
             if ($result->statusCode == 403) {
                 echo showErrorMessage('Sorry, this feed is not start now. Please try again later!');
             }
         } elseif ($_POST['h_status'] == 'stop') {
             $result = stopLiveEvent($_POST['h_id']);
-            wailLiveStatus($_POST['h_id'], 1, 'stop', 10);
+            wailLiveStatus($_POST['h_id'], 1, 'stop', 120);
             if ($result->statusCode == 400) {
                 echo showErrorMessage('Sorry, this feed is initialing, can not stop now. Please try again later!');
             }
@@ -505,7 +505,7 @@ function publish_entity_ajax()
             wp_send_json(json_encode(['error' => 1, 'message' => 'The entity has already puslished!', 'data' => $result->getLastResponse()->json]));
         } else {
             publicEntity($id);
-            wailPublicStatus($id, 2, 'success', 180);
+            wailPublicStatus($id, 1, 'success', 120);
             $result = getEntityDetail($id);
             if ($result->publishToCdn == 'success') {
                 wp_send_json(json_encode(['error' => 0, 'message' => 'The entity was puslished successfully!', 'data' => $result->getLastResponse()->json]));
