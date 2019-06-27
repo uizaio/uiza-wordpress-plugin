@@ -362,10 +362,7 @@ function showErrorMessage($error)
 }
 function showDefaultEmbed()
 {
-    return '<div class="col-sm" style="background-image: url(' . plugin_dir_url(__FILE__) . '../images/imageHolder.jpg);height: 315px;background-position: 50% center;">
-    <span class="badge badge-pill badge-secondary video-not-ready">Not Ready</span>
-    <div class="img-tracking"></div>
-</div>';
+    return '<div class="col-sm" style="background-image: url(' . plugin_dir_url(__FILE__) . '../images/imageHolder.jpg);height: 315px;background-position: 50% center;"><span class="badge badge-pill badge-secondary video-not-ready">Not Ready</span><div class="img-tracking"></div></div>';
 }
 function showEventDetail($detail)
 {
@@ -522,20 +519,20 @@ function start_stop_event_ajax()
         $status = $_REQUEST['status'];
         if ($status == 'start') {
             $resultStart = startLiveEvent($live);
-            //wailLiveStatus($live, 1, 'start', 10);
+            wailLiveStatus($live, 1, 'start', 3);
             if ($resultStart->statusCode == 403) {
-                wp_send_json(json_encode(['error' => 1, 'message' => 'Sorry, this feed is not start now. Please try again later!', 'data' => $result->getLastResponse()->json]));
+                wp_send_json(json_encode(['error' => 1, 'start' => 0, 'message' => 'Sorry, this feed is not start now. Please try again later!', 'data' => $result->getLastResponse()->json]));
             } else {
                 $result = getLiveDetail($live);
-                wp_send_json(json_encode(['error' => 0, 'message' => 'The streaming event was start successfully!', 'data' => $result->getLastResponse()->json]));
+                wp_send_json(json_encode(['error' => 0, 'start' => 1, 'message' => 'The streaming event was start successfully!', 'data' => $result->getLastResponse()->json]));
             }
         } elseif ($status == 'stop') {
             $result = stopLiveEvent($live);
-            //wailLiveStatus('live', 1, 'stop', 10);
+            wailLiveStatus('live', 1, 'stop', 3);
             if ($result->statusCode == 400) {
-                wp_send_json(json_encode(['error' => 1, 'message' => 'Sorry, this feed is initialing, can not stop now. Please try again later!', 'data' => $result->getLastResponse()->json]));
+                wp_send_json(json_encode(['error' => 1, 'start' => 0, 'message' => 'Sorry, this feed is initialing, can not stop now. Please try again later!', 'data' => $result->getLastResponse()->json]));
             } else {
-                wp_send_json(json_encode(['error' => 0, 'message' => 'The streaming event was stop successfully!', 'data' => $result->getLastResponse()->json]));
+                wp_send_json(json_encode(['error' => 0, 'start' => 0, 'message' => 'The streaming event was stop successfully!', 'data' => $result->getLastResponse()->json]));
 
             }
         }

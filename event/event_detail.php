@@ -100,7 +100,7 @@ if ($action == 'start') {
     //     $('#h_id').val($(this).attr('live'));
     //     $('#form3').submit();
     // });
-    $('#start_live_btn, #stop_live_btn').click(function(e){
+    $(document).on('click', '#start_live_btn, #stop_live_btn', function(e){
         e.preventDefault();
         $('#loading').show();
         $.ajax({
@@ -117,9 +117,27 @@ if ($action == 'start') {
             var jsonDecode = JSON.parse(data);
             //showEmbledPlayer
             if (jsonDecode['error'] == '0') {
-              $('#show_embed_video_play').html(showEmbledStream(JSON.parse(jsonDecode['data'])['data'], '<?=get_option('uiza-app-id')?>'));
-              $('#show_embed_text').text(showEmbledStream(JSON.parse(jsonDecode['data'])['data'], '<?=get_option('uiza-app-id')?>'));
+              if (jsonDecode['start'] == '1') {
+                // $('#start_live_btn').removeClass('btn-info');
+                // $('#start_live_btn').addClass('btn-danger');
+                // $('#start_live_btn').attr('live', JSON.parse(jsonDecode['data'])['data']['id']);
+                // $('#start_live_btn').text('Stop Live');
+                // $('#start_live_btn').attr('id', 'stop_live_btn');
+                // $('#show_embed_button').attr('status', 'start');
+                $('#show_embed_video_play').html(showEmbledStream(JSON.parse(jsonDecode['data'])['data'], '<?=get_option('uiza-app-id')?>'));
+                $('#show_embed_text').text(showEmbledStream(JSON.parse(jsonDecode['data'])['data'], '<?=get_option('uiza-app-id')?>'));
+              }
+              // } else {
+              //   $('#stop_live_btn').removeClass('btn-danger');
+              //   $('#stop_live_btn').addClass('btn-info');
+              //   $('#stop_live_btn').attr('live', JSON.parse(jsonDecode['data'])['data']['id']);
+              //   $('#stop_live_btn').text('Start Live');
+              //   $('#stop_live_btn').attr('id', 'start_live_btn');
+              //   $('#show_embed_button').attr('status', 'stop');
+              //   $('#show_embed_video_play').html('<?=showDefaultEmbed()?>');
+              // }
               $('#message_display').html(showMessage(jsonDecode['message'], 'success'));
+              setTimeout(function() {location.reload()}, 3000);
             } else {
               $('#message_display').html(showMessage(jsonDecode['message'], 'warning'));
             }
