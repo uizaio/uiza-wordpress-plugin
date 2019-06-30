@@ -223,6 +223,10 @@ function uiza_add_menu()
 function uiza_page()
 {
     echo '<div class="wrap"><h1>Setting</h1><form method="post" action="options.php">';
+    if (isset($_GET['settings-updated'])) {
+        echo '<div id="message_display"><div class="wrap"><div class="alert alert-success alert-dismissible fade show" role="alert"><span>Settings saved.</span><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button></div></div></div>';
+    }
+
     settings_fields("uiza_config");
     do_settings_sections("uiza");
     submit_button();
@@ -352,6 +356,8 @@ function showButtonEvent($live)
 {
     if ($live['lastProcess'] == 'start') {
         return '<button _ngcontent-c11="" class="btn btn-sm btn-danger mr-right-10" id="stop_live_btn" val="stop" live="' . $live['id'] . '"><i _ngcontent-c11="" class="icon icon-stop" style="line-height: 0"></i>Stop Live </button>';
+    } elseif ($live['lastProcess'] == 'in-process') {
+        return '<button _ngcontent-c11="" class="btn btn-sm btn-warning mr-right-10" id="stop_live_btn" val="stop" live="' . $live['id'] . '"><i _ngcontent-c33="" style="line-height: 0" class="icon icon-estime"></i>Processing</button>';
     } else {
         return '<button _ngcontent-c40="" class="btn btn-sm btn-info mr-right-10" id="start_live_btn" val="start" live="' . $live['id'] . '"><i _ngcontent-c40="" class="icon icon-livestream" style="line-height: 0"></i>Start Live</button>';
     }
@@ -360,15 +366,24 @@ function showErrorMessage($error)
 {
     return '<div class="wrap"><div class="alert alert-danger alert-dismissible fade show" role="alert">' . $error . '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div></div>';
 }
-function showDefaultEmbed()
+function showDefaultEmbed($lassProcess = null)
 {
-    return '<div class="col-sm" style="background-image: url(' . plugin_dir_url(__FILE__) . '../images/imageHolder.jpg);height: 315px;background-position: 50% center;"><span class="badge badge-pill badge-secondary video-not-ready">Not Ready</span><div class="img-tracking"></div></div>';
+    $process = '<span _ngcontent-c33="" class="badge badge-success">Stream is waiting for signal. Learn <a _ngcontent-c33="" href="https://help.uiza.io/articles/2998603-obs-guideline" rel="noopener noreferrer" target="_blank">how to push signal here</a></span>';
+    $notReady = '<span class="badge badge-pill badge-secondary video-not-ready">Not Ready</span>';
+    if ($lassProcess == 'in-process') {
+        $tmp = $process;
+    } else {
+        $tmp = $notReady;
+    }
+    return '<div class="col-sm" style="background-image: url(' . plugin_dir_url(__FILE__) . '../images/imageHolder.jpg);height: 315px;background-position: 50% center;"><div class="img-tracking">' . $tmp . '</div></div>';
 }
 function showEventDetail($detail)
 {
     $tempText = '<div class="row"><div class="col-sm" id="show_embed_video_play">';
     if ($detail->lastProcess == 'start') {
         $tempText .= getEmbedStream($detail);
+    } elseif ($detail->lastProcess == 'in-process') {
+        $tempText .= showDefaultEmbed('in-process');
     } else {
         $tempText .= showDefaultEmbed();
     }
@@ -447,6 +462,9 @@ function showEmbedInList($info)
                     </ul>
                 </div>
             </div>';
+    }
+    if ($info['lastProcess'] == 'in-process') {
+        return '<div _ngcontent-c11="" style="position: relative"><div _ngcontent-c11="" class="img-tracking" style="background-image: url(\'' . plugin_dir_url(__FILE__) . '../images/imageHolder.jpg\');"></div></div>';
     }
     return '<div _ngcontent-c11="" style="position: relative"><div _ngcontent-c11="" class="img-tracking" style="background-image: url(\'' . plugin_dir_url(__FILE__) . '../images/imageHolder.jpg\');"></div></div>';
 }
@@ -536,6 +554,13 @@ function start_stop_event_ajax()
 
             }
         }
+    }
+}
+function wail_push_event_ajax()
+{
+    if (isset($_REQUEST)) {
+        $result = getLiveDetail($live);
+        wp_send_json(json_encode(['error' => 0, 'start' => 1, 'message' => '', 'data' => $result->json]));
     }
 }
 function showWaiting()

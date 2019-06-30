@@ -2,7 +2,7 @@
 * @Author: tritruong
 * @Date:   2019-06-08 23:25:34
 * @Last Modified by:   tritruong
-* @Last Modified time: 2019-06-26 06:56:32
+* @Last Modified time: 2019-06-30 22:31:51
 */
 function showMessage(message, className) {
 	return '<div class="wrap">' +
