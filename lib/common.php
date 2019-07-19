@@ -565,7 +565,7 @@ function wail_push_event_ajax()
 }
 function showWaiting()
 {
-    return '<div class="text-center" style="display: none;" id="loading">
+    return '<div class="text-center" id="loading" style="display:none;">
   <div class="spinner-border loading-gif" role="status">
     <span class="sr-only">Loading...</span>
   </div>

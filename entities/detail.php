@@ -155,7 +155,7 @@ echo '</div>';
           },
           type: 'POST',
           dataType: 'json',
-          async: false,
+          async: true,
           success:function(data) {
             var jsonDecode = JSON.parse(data);
             console.log(jsonDecode);

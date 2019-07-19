@@ -39,7 +39,7 @@
 <p>
     <div class="col-sm" id="show_embed_video_play_single"></div>
 </p>
-<?=showWaiting()?>
+<div id="waiting_locate"></div>
 <script type="text/javascript">
     $(function() {
         $("#close-show-embed").click(function(e) {
@@ -51,9 +51,10 @@
             errorMessageClass: 'form-error'
         });
         $(document).on('click', '#public_single_act', function(e){
+            e.preventDefault();
+            $('#waiting_locate').html(showWaitingJs());
             $('#embed-code-copy').hide();
             $('#show_embed_video_play_single').hide();
-            $('#loading').show();
             $.ajax({
               url: ajaxurl,
               data: {
@@ -62,7 +63,7 @@
               },
               type: 'POST',
               dataType: 'json',
-              async: false,
+              async: true,
               success:function(data) {
                 var jsonDecode = JSON.parse(data);
                 $('#publish_to_cdn').text(JSON.parse(jsonDecode['data'])['data']['publishToCdn']);

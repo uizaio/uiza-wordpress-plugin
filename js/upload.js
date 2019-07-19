@@ -147,7 +147,7 @@ var submitUpload = async ()=>{
   if(!fileSelected)
     return alert('File select empty');
   console.log('fileSelected',fileSelected);
-  $('#loading').show();
+  $('#waiting_locate').html(showWaitingJs());
   var idCreated = null;
   var configAWS = null;
   var dataAWS = null;
