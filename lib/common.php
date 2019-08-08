@@ -79,6 +79,21 @@ function publicEntity($entityId)
 }
 
 /**
+ * [getStatusPublish description]
+ * @param  [type] $entityId [description]
+ * @return [type]           [description]
+ */
+function getStatusPublish($entityId)
+{
+    init();
+    try {
+        return Uiza\Entity::getStatusPublish($entityId);
+    } catch (\Uiza\Exception\ErrorResponse $e) {
+        return $e;
+    }
+}
+
+/**
  * [createLiveEvent]
  * @param  [type] $params [description]
  * @return [type]         [description]
@@ -520,14 +535,22 @@ function publish_entity_ajax()
             wp_send_json(json_encode(['error' => 1, 'message' => 'The entity has already puslished!', 'data' => $result->getLastResponse()->json]));
         } else {
             publicEntity($id);
-            wailPublicStatus($id, 1, 'success', 120);
+            //wailPublicStatus($id, 1, 'success', 120);
             $result = getEntityDetail($id);
             if ($result->publishToCdn == 'success') {
                 wp_send_json(json_encode(['error' => 0, 'message' => 'The entity was puslished successfully!', 'data' => $result->getLastResponse()->json]));
             } else {
-                wp_send_json(json_encode(['error' => 1, 'message' => 'The entity is inprogress, please wait...!', 'data' => $result->getLastResponse()->json]));
+                wp_send_json(json_encode(['error' => 2, 'message' => 'The entity is inprogress, please wait...!', 'data' => $result->getLastResponse()->json]));
             }
         }
+    }
+}
+function check_entity_status_ajax($id)
+{
+    if (isset($_REQUEST)) {
+        $id = $_REQUEST['entity_id'];
+        $tmpStatusDetail = getStatusPublish($id);
+        wp_send_json(json_encode(['error' => 0, 'message' => '', 'data' => $tmpStatusDetail]));
     }
 }
 function start_stop_event_ajax()
@@ -561,6 +584,13 @@ function wail_push_event_ajax()
     if (isset($_REQUEST)) {
         $result = getLiveDetail($live);
         wp_send_json(json_encode(['error' => 0, 'start' => 1, 'message' => '', 'data' => $result->json]));
+    }
+}
+function last_process_event_ajax()
+{
+    if (isset($_REQUEST)) {
+        $result = getLiveDetail($_REQUEST['entity_id']);
+        wp_send_json(json_encode(['error' => 0, 'start' => 1, 'message' => '', 'data' => $result->getLastResponse()->json]));
     }
 }
 function showWaiting()

@@ -29,6 +29,9 @@ $info = [
   <strong>Embed Code!</strong>  Copied success.
 </div>
 </p>
+<div class="progress" style="display: none;">
+  <div class="progress-bar" style="width:0%"></div>
+</div>
 <p><h4>Detail</h4></p>
 <div class="row">
 	<?php
@@ -158,8 +161,9 @@ echo '</div>';
           async: true,
           success:function(data) {
             var jsonDecode = JSON.parse(data);
+            var war_flg = false;
             console.log(jsonDecode);
-            //showEmbledPlayer
+            // //showEmbledPlayer
             if (jsonDecode['error'] == '0') {
               $('#entity_id_text').attr('status', 'success');
               $('#show_embed_video_play').html(showEmbledPlayer(JSON.parse(jsonDecode['data'])['data'], '<?=get_option('uiza-app-id')?>'));
@@ -167,6 +171,31 @@ echo '</div>';
               $('#message_display').html(showMessage(jsonDecode['message'], 'success'));
             } else {
               $('#message_display').html(showMessage(jsonDecode['message'], 'warning'));
+              war_flg = true;
+            }
+            if (jsonDecode['error'] != '1') {
+              setInterval(function(){
+                $.ajax({
+                  url: ajaxurl,
+                  data: {
+                      'action': 'check_entity_status_ajax',
+                      'entity_id' : '<?=$id?>'
+                  },
+                  type: 'POST',
+                  dataType: 'json',
+                  async: true,
+                  success:function(data) {
+                    var jsonDecode = JSON.parse(data);
+                    console.log(jsonDecode['data']['progress']);
+                    $('#loading').hide();
+                    $('.progress').show();
+                    $('.progress-bar').css("width", jsonDecode['data']['progress'] + "%");
+                    if (jsonDecode['data']['progress'] == 100) {
+                      window.location.href = 'admin.php?page=uiza-entities&id=' + '<?=$id?>';
+                    }
+                  }
+                });
+              }, 100);
             }
             $('#loading').hide();
           },

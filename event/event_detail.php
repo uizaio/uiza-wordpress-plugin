@@ -11,7 +11,6 @@ if ($id == '' || !preg_match('/^\w{8}-\w{4}-\w{4}-\w{4}-\w{12}$/', $id)) {
 startStopEvent();
 //Get detail live stream
 $detailLive = getLiveDetail($id);
-
 if ($action == 'start') {
     $result = startLiveEvent($id);
     if ($result->statusCode == 403) {
@@ -117,27 +116,64 @@ if ($action == 'start') {
             var jsonDecode = JSON.parse(data);
             //showEmbledPlayer
             if (jsonDecode['error'] == '0') {
-              if (jsonDecode['start'] == '1') {
-                // $('#start_live_btn').removeClass('btn-info');
-                // $('#start_live_btn').addClass('btn-danger');
-                // $('#start_live_btn').attr('live', JSON.parse(jsonDecode['data'])['data']['id']);
-                // $('#start_live_btn').text('Stop Live');
-                // $('#start_live_btn').attr('id', 'stop_live_btn');
-                // $('#show_embed_button').attr('status', 'start');
-                $('#show_embed_video_play').html(showEmbledStream(JSON.parse(jsonDecode['data'])['data'], '<?=get_option('uiza-app-id')?>'));
-                $('#show_embed_text').text(showEmbledStream(JSON.parse(jsonDecode['data'])['data'], '<?=get_option('uiza-app-id')?>'));
+              if (JSON.parse(jsonDecode['data'])['data']['mode'] == 'push') {
+                if (jsonDecode['start'] == '1') {
+                  $('#start_live_btn').removeClass('btn-info');
+                  //$('#start_live_btn').addClass('btn-danger');
+                  $('#start_live_btn').addClass('btn-warning');
+                  $('#start_live_btn').attr('live', JSON.parse(jsonDecode['data'])['data']['id']);
+                  //$('#start_live_btn').text('Stop Live');
+                  $('#start_live_btn').text('Processing');
+                  $('#start_live_btn').attr('val', 'stop');
+                  $('#start_live_btn').attr('id', 'stop_live_btn');
+                  $('#show_embed_button').attr('status', 'in-process');
+                  $('#show_embed_video_play').html(showEmbledStreamPushDefault('<?=plugin_dir_url(__FILE__)?>' + '../images/imageHolder.jpg'));
+                  // $('#show_embed_text').text(showEmbledStream(JSON.parse(jsonDecode['data'])['data'], '<?=get_option('uiza-app-id')?>'));
+                } else {
+                  $('#stop_live_btn').removeClass('btn-warning');
+                  $('#stop_live_btn').removeClass('btn-danger');
+                  $('#stop_live_btn').text('Start Live');
+                  //$('#stop_live_btn').removeClass('btn-danger');
+                  // $('#stop_live_btn').removeClass('btn-warning');
+                  // $('#stop_live_btn').addClass('btn-info');
+                  // $('#stop_live_btn').attr('live', JSON.parse(jsonDecode['data'])['data']['id']);
+                  // $('#stop_live_btn').text('Start Live');
+                  // $('#stop_live_btn').attr('id', 'start_live_btn');
+                  // $('#show_embed_button').attr('status', 'stop');
+                  // $('#show_embed_video_play').html('<?=showDefaultEmbed()?>');
+                  setTimeout(function() {location.reload()}, 3000);
+                }
+              } else {
+                setTimeout(function() {location.reload()}, 3000);
               }
-              // } else {
-              //   $('#stop_live_btn').removeClass('btn-danger');
-              //   $('#stop_live_btn').addClass('btn-info');
-              //   $('#stop_live_btn').attr('live', JSON.parse(jsonDecode['data'])['data']['id']);
-              //   $('#stop_live_btn').text('Start Live');
-              //   $('#stop_live_btn').attr('id', 'start_live_btn');
-              //   $('#show_embed_button').attr('status', 'stop');
-              //   $('#show_embed_video_play').html('<?=showDefaultEmbed()?>');
-              // }
               $('#message_display').html(showMessage(jsonDecode['message'], 'success'));
-              setTimeout(function() {location.reload()}, 3000);
+             // setTimeout(function() {location.reload()}, 3000);
+              if (JSON.parse(jsonDecode['data'])['data']['lastProcess'] == 'in-process' && JSON.parse(jsonDecode['data'])['data']['mode'] == 'push') {
+                //$('#show_embed_video_play').html('<?=showDefaultEmbed()?>');
+                setInterval(function(){
+                  console.log('test');
+                  $.ajax({
+                    url: ajaxurl,
+                    data: {
+                        'action': 'last_process_event_ajax',
+                        'entity_id' : '<?=$id?>'
+                    },
+                    type: 'POST',
+                    dataType: 'json',
+                    async: true,
+                    success:function(data) {
+                      var jsonDecode = JSON.parse(data);
+                      var lastProcess = JSON.parse(jsonDecode['data'])['data']['lastProcess'];
+                      var mode = JSON.parse(jsonDecode['data'])['data']['mode'];
+                      if (lastProcess == 'start') {
+                        window.location.href = 'admin.php?page=uiza-event&id=' + '<?=$id?>';
+                      }
+                    }
+                  });
+                }, 5000);
+              }// else {
+              //   setTimeout(function() {location.reload()}, 2000);
+              // }
             } else {
               $('#message_display').html(showMessage(jsonDecode['message'], 'warning'));
             }

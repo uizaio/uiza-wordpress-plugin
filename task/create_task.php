@@ -75,6 +75,30 @@
                 } else {
                   $('#message_display').html(showMessage(jsonDecode['message'], 'warning'));
                 }
+                if (jsonDecode['error'] != '1') {
+                  setInterval(function(){
+                    $.ajax({
+                      url: ajaxurl,
+                      data: {
+                          'action': 'check_entity_status_ajax',
+                          'entity_id' : $('#public_single_act').attr('entity_id')
+                      },
+                      type: 'POST',
+                      dataType: 'json',
+                      async: true,
+                      success:function(data) {
+                        var jsonDecode = JSON.parse(data);
+                        console.log(jsonDecode);
+                        $('#loading').hide();
+                        $('.progress').show();
+                        $('.progress-bar').css("width", jsonDecode['data']['progress'] + "%");
+                        if (jsonDecode['data']['progress'] == 100) {
+                          window.location.href = 'admin.php?page=uiza-entities&id=' + $('#public_single_act').attr('entity_id');
+                        }
+                      }
+                    });
+                  }, 100);
+                }
                 $('#loading').hide();
               },
               error: function(errorThrown){
